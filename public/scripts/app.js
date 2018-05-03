@@ -1,4 +1,6 @@
-$(() => {
+console.log('hello from app.js')
+
+/* $(() => {
   $.ajax({
     method: "GET",
     url: "/api/users"
@@ -8,3 +10,5 @@ $(() => {
     }
   });;
 });
+
+*/

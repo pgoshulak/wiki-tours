@@ -51,7 +51,27 @@ app.use("/api/maps", favouritesRoutes(knex));
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", {
+    partialName: 'featured'
+  });
+});
+
+// Map viewer
+app.get("/map/:id", (req, res) => {
+  res.render("index", {
+    partialName: 'map_viewer',
+    mapId: req.params.id
+  });
+});
+
+// Map editor
+app.get("/map/:id/edit", (req, res) => {
+  // Check for user logged in here
+  // ...
+  res.render("index", {
+    partialName: 'map_editor',
+    mapId: req.params.id
+  });
 });
 
 app.listen(PORT, () => {
