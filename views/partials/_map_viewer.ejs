@@ -36,12 +36,11 @@
         </li>
 
         <% mapPoints.forEach((point, pointIndex) => { 
-          if (point.owner_approved) { %>
-            <li class="list-group-item point-entry" data-point-index="<%= pointIndex%>" >
-              <%= point.title %>
-            </li>
-          <% } 
-        }) %>
+          console.log(`point ${pointIndex}: ${point.name}`) %>
+          <li class="list-group-item point-entry" data-point-index="<%= pointIndex%>" >
+            <%= point.title %>
+          </li>
+        <% }) %>
       </ul>
     </div>
 

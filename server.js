@@ -66,7 +66,7 @@ app.get("/map/:id", (req, res) => {
 
   Promise.all([
     mapsDb.getMapData(mapId),
-    mapsDb.getMapPoints(mapId),
+    mapsDb.getApprovedMapPoints(mapId),
     mapsDb.getMapFavourites(mapId)
   ]).then(results => {
     // Store results for rendering

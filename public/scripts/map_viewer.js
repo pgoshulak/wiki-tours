@@ -2,6 +2,7 @@
 // Callback after loading the Maps JS API from <script> at bottom of the viewer partial
 var map;
 var mapMarkers = [];
+function showPointDetail() {}
 
 $(document).ready(function () {
   function renderHeaderMaster() {
@@ -17,6 +18,18 @@ $(document).ready(function () {
     map.setZoom(13)
   }
 
+  // Display a point's details in the window
+  showPointDetail = function(pointIndex) {
+    var point = mapPoints[pointIndex];
+    $('#map-details').hide();
+    $('#points-list').hide();
+    $('#point-details').show();
+    renderHeaderPointDetail(point);
+    $('#point-description').text(point.description);
+    panMap(point.latitude, point.longitude)
+  }
+
+  // Handlers for swapping between window views
   $('#details-show-list').on('click', function () {
     $('#map-details').hide()
     $('#points-list').show()
@@ -32,39 +45,42 @@ $(document).ready(function () {
   })
   $('#points-list').on('click', '.point-entry', function() {
     var pointIndex = $(this).data('point-index');
-    var point = mapPoints[pointIndex];
-
-    $('#points-list').hide();
-    $('#point-details').show();
-    renderHeaderPointDetail(point);
-    $('#point-description').text(point.description);
-    panMap(point.latitude, point.longitude)
-
+    showPointDetail(pointIndex);
   })
 })
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 11,
-    center: new google.maps.LatLng(43.7, -79.4)
+    /* zoom: 11,
+    center: new google.maps.LatLng(43.7, -79.4) */
   })
 
 
   if (mapPoints.length) {
-    mapPoints.forEach((point, pointIndex) => {
-      setTimeout(() => {
+    // Initialize map boundaries
+    var mapInitialBounds = new google.maps.LatLngBounds();
 
-        mapMarkers.push(new google.maps.Marker({
-          map: map,
-          draggable: false,
-          animation: google.maps.Animation.DROP,
-          position: {
-            lat: Number(point.latitude),
-            lng: Number(point.longitude)
-          }
-        }));
-      }, 500 * pointIndex);
+    mapPoints.forEach((point, pointIndex) => {
+      // Store lat/lng
+      var position = new google.maps.LatLng(Number(point.latitude), Number(point.longitude))
+      // Create a 'pin' marker on the map
+      var marker = new google.maps.Marker({
+        map: map,
+        draggable: false,
+        animation: google.maps.Animation.DROP,
+        position: position
+      });
+
+      mapMarkers.push(marker);
+      marker.addListener('click', function() {
+        showPointDetail(pointIndex);
+      })
+      // Extend the initial map bounds to visualize the new point
+      mapInitialBounds.extend(position);
     })
+    // Fit map boundary to all visible points
+    map.fitBounds(mapInitialBounds);
+
   } else {
     console.log('no markers loaded')
   }
