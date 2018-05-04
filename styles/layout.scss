@@ -1,3 +1,5 @@
+@import 'global_vars';
+
 body {
   background-color: #EEE;
 
@@ -8,5 +10,5 @@ body {
 }
 
 .main-container {
-  margin-top: 52px;
+  margin-top: $nav-bar-height;
 }
