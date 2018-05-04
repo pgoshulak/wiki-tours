@@ -28,6 +28,13 @@ module.exports = (mapsDb) => {
       })
   });
 
+  router.get("/:id/points/approved", (req, res) => {
+    mapsDb.getApprovedMapPoints(req.params.id)
+      .then((results) => {
+        res.json(results)
+      })
+  });
+
   router.get("/:id/favourites", (req, res) => {
     mapsDb.getMapFavourites(req.params.id)
       .then((results) => {

@@ -26,6 +26,14 @@ module.exports = (knex) => {
         })
         .select('*')
     },
+    getApprovedMapPoints(map_id) {
+      return knex('points')
+        .where({
+          map_id: map_id,
+          owner_approved: true
+        })
+        .select('*')
+    },
     // Get users who have favourited a map
     getMapFavourites(map_id) {
       return knex('users')
