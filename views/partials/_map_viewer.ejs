@@ -1,4 +1,12 @@
+<script>
+  // Pass these variables from EJS template into JS script below
+  let mapId = <%= mapId %>;
+</script>
 <script src="/scripts/map_viewer.js"></script>
 <div>
-<h1>Map Viewer</h1>
+  <div id="map"></div>
 </div>
+
+<script async defer
+  src="<%= `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&callback=initMap` %>">
+</script>

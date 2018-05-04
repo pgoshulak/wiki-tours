@@ -1,0 +1,5 @@
+@import 'global_vars';
+
+#map {
+  height: calc(100vh - #{$nav-bar-height});
+}
