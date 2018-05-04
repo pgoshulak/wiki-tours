@@ -1,5 +1,51 @@
 @import 'global_vars';
+$thumbnail-height: 150px;
+#map-container {
+  position: relative;
+}
 
 #map {
+  position: fixed;
   height: calc(100vh - #{$nav-bar-height});
+  z-index: 0;
+}
+
+#details-window {
+  position: fixed;
+  display: flex;
+  top: calc(#{$nav-bar-height} + 50px);
+  left: 20px;
+  width: 240px;
+  z-index: 1;
+}
+
+.img-container {
+  height: $thumbnail-height;
+  &:after {
+    position: absolute;
+    content: '';
+    height: $thumbnail-height;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0))
+  }
+  img {
+    object-fit: cover;
+    height: 100%;
+    zoom: 2;
+    overflow: hidden;
+  }
+}
+
+.card-img-overlay {
+  height: $thumbnail-height;
+}
+
+#map-details {
+  display: none;
+}
+
+#points-list {
+  
 }
