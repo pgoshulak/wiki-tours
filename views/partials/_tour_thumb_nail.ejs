@@ -1,17 +1,61 @@
-<div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="https://www.fillmurray.com/140/100" alt="Card image cap">
+<style>
+  .card {
+    width: 300px;
+    height: 200x;
+  }
+
+  .tour-title{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .card-body{
+    height: :50px;
+  }
+
+  .card-full{
+    height: 500px;
+  }
+
+</style>
+
+
+<div class="card">
+
+    <img class="card-img-top" src="https://www.fillmurray.com/140/100" alt="Card image cap">
+
   <div class="card-body">
-  <div class="row">
-    <div class=".col-md-8 ">
-      <p class="card-text">Tour Name</p>
+    <div class="tour-title">
+      <p class="card-text">Tour Name </p>
+      <p>Rating 5<i class="far fa-star"></i></p>
     </div>
-    <div class=".col-md-2">
-      <p class="card-text">Rating 5<i class="far fa-star"></i></p>
-    </div>
-  </div>
+
     <div>
-      <p>Creator: Jeff</p>
-      <p class="card-text">Tour Description</p>
+      <fieldset class="majorpoints">
+      <p class="info">More Information</p>
+      <div class="hiders" style="display:none" >
+        <p>Lorem ipsum dolor sit amet, cum ea verterem scripserit. Nam te audiam albucius mediocritatem. Aperiam oblique consequat cu vim. Aperiri petentium maluisset ea vel. Vim tibique periculis elaboraret te.</p>
+      </div>
     </div>
+
   </div>
 </div>
+
+<script>
+  jQuery.fn.extend({
+    toggleText: function(stateOne, stateTwo) {
+        return this.each(function() {
+            stateTwo = stateTwo || '';
+            $(this).text() !== stateTwo && stateOne ? $(this).text(stateTwo) : $(this).text(stateOne);
+        });
+    }
+  });
+
+
+  $('.majorpoints').click(function(){
+    $(this).find('.hiders').toggle();
+    $(this).toggleClass(".card-full");
+    //$(this).find('.info').text("Less Information");
+    $('.info').toggleText('More Information', 'Less Information');
+  });
+</script>
