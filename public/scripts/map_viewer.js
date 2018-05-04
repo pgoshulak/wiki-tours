@@ -12,6 +12,10 @@ $(document).ready(function () {
     $('#header-img').attr('src', point.image_url);
     $('#header-text').text(point.title);
   }
+  function panMap(lat, lng) {
+    map.panTo(new google.maps.LatLng(Number(lat), Number(lng)));
+    map.setZoom(13)
+  }
 
   $('#details-show-list').on('click', function () {
     $('#map-details').hide()
@@ -27,11 +31,15 @@ $(document).ready(function () {
     renderHeaderMaster();
   })
   $('#points-list').on('click', '.point-entry', function() {
+    var pointIndex = $(this).data('point-index');
+    var point = mapPoints[pointIndex];
+
     $('#points-list').hide();
     $('#point-details').show();
-    var pointIndex = $(this).data('point-index');
-    renderHeaderPointDetail(mapPoints[pointIndex]);
-    $('#point-description').text(mapPoints[pointIndex].description);
+    renderHeaderPointDetail(point);
+    $('#point-description').text(point.description);
+    panMap(point.latitude, point.longitude)
+
   })
 })
 
@@ -48,7 +56,7 @@ function initMap() {
 
         mapMarkers.push(new google.maps.Marker({
           map: map,
-          draggable: true,
+          draggable: false,
           animation: google.maps.Animation.DROP,
           position: {
             lat: Number(point.latitude),
