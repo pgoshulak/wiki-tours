@@ -24,8 +24,14 @@ module.exports = (knex) => {
   router.delete("/:id/favourites", (req, res) => {
     knex('favourites')
     .where({
-
+      id: req.params.id
+    }).del()
+    .then(() => {
+      res.send("deleted");
     })
+    .catch(function(err) {
+      console.error(err);
+    });
   });
 
 //   knex('accounts')
