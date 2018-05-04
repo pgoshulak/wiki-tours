@@ -102,6 +102,14 @@ app.get("/profile", (req, res) => {
   });
 });
 
+//-----------Login--------------------
+app.get('/login', (request, response) => {
+    //request.session.user_id = request.params.id;
+    res.cookie('user_id',{ user_id: 1});
+    resonse.redirect('/');
+  });
+
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });

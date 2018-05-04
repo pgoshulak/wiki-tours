@@ -34,6 +34,5 @@ module.exports = (usersDb) => {
       });
   });
 
-
   return router;
 }
