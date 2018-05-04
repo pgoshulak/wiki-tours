@@ -3,18 +3,21 @@
   <head>
     <% include ./partials/_header.ejs %>
   </head>
-    
+
     <body>
     <div class="header">
-    <% include ./partials/_navbar.ejs %>
+    <!--<% include ./partials/_navbar.ejs %>-->
     </div>
 
     <div class="main-container">
-      <%- include(`partials/_${partialName}`) %>
+      <!--<%- include(`partials/_${partialName}`) %>-->
+
+      <% include ./partials/_tour_thumb_nail.ejs %>
+
     </div>
 
     <div class="footer">
-      <% include ./partials/_footer.ejs %>
+      <!--<% include ./partials/_footer.ejs %>-->
     </div>
   </body>
 

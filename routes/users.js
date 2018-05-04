@@ -5,6 +5,7 @@ const router = express.Router();
 
 module.exports = (usersDb) => {
 
+//----------Get Routes------------
   router.get("/", (req, res) => {
     usersDb.getAllUsers()
       .then((results) => {

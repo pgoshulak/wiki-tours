@@ -5,6 +5,7 @@ const router  = express.Router();
 
 module.exports = (knex) => {
 
+//------------Post Routes---------------------
   router.post("/:id/favourites", (req, res) => {
     knex('favourites')
     .returning('id')
@@ -21,6 +22,7 @@ module.exports = (knex) => {
     });
   });
 
+//-----------Delete Routes--------------------
   router.delete("/:id/favourites", (req, res) => {
     knex('favourites')
     .where({
