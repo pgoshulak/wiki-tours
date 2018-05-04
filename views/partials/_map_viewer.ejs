@@ -5,18 +5,20 @@
   var mapData = <%- JSON.stringify(mapData) %>;
   var mapPoints = <%- JSON.stringify(mapPoints) %>;
   var mapFavourites = <%- JSON.stringify(mapFavourites) %>;
-  console.log(mapData)
+  console.log(mapPoints)
 </script>
 <div id="map-container">
   <div id="details-window" class="card">
-
-    <div id="map-details">
+    <div id="details-header">
       <div class="img-container">
         <img src="<%= mapData.thumbnail_url %>" alt="<%= mapData.title %> thumbnail" class="card-img">
       </div>
-      <div class="card-img-overlay text-white">
-        <h4 class="card-title"><%= mapData.title %></h4>
-      </div>
+    </div>
+    <div class="card-img-overlay text-white">
+      <h4 class="card-title"><%= mapData.title %></h4>
+    </div>
+
+    <div id="map-details">
       <div class="card-body">
         <p class="card-text text-muted"><small><%= mapFavourites.length %> likes</small></p>
         <p><%= mapData.description %></p>
@@ -27,7 +29,21 @@
       </div>
     </div>
 
-    <div id="points-list"></div>
+    <div id="points-list">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a href="#"><small>&laquo; Map Info</small></a>
+        </li>
+
+        <% mapPoints.forEach(point => { 
+          if (point.owner_approved) { %>
+            <li class="list-group-item"><%= point.title %></li>
+          <% } 
+        }) %>
+      </ul>
+    </div>
+
+
     <div id="point-details"></div>
   </div>
   <div id="map"></div>
