@@ -1,48 +1,37 @@
 "use strict";
 
 const express = require('express');
-const router  = express.Router();
+const router = express.Router();
 
 module.exports = (knex) => {
+  const users = require('../modules/users.js')(knex);
 
   router.get("/", (req, res) => {
-    knex
-      .select("*")
-      .from("users")
+    users.getAllUsers()
       .then((results) => {
         res.json(results);
-    }).catch(function(err) {
-      console.error(err);
-    });
+      }).catch(function (err) {
+        console.error(err);
+      });
   });
 
   router.get("/:id", (req, res) => {
-    knex
-      .select("*")
-      .from("users")
-      .where({
-        id:req.params.id
-      })
+    users.getUser(req.params.id)
       .then((results) => {
         res.json(results);
-    }).catch(function(err) {
-      console.error(err);
-    });
+      }).catch(function (err) {
+        console.error(err);
+      });
   });
 
   router.get("/:id/favourites", (req, res) => {
-    knex
-      .select("*")
-      .from("favourites")
-      .where({
-        user_id: req.params.id
-      })
+    users.getUserFavourites(req.params.id)
       .then((results) => {
         res.json(results);
       })
-      .catch(function(err) {
+      .catch(function (err) {
         console.error(err);
-    });
+      });
   });
 
 
