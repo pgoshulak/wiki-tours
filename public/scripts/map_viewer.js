@@ -1,8 +1,10 @@
-var map;
-var mapMarkers = [];
+
+
 
 // Initialize the Map view
 // Callback after loading the Maps JS API from <script> at bottom of the viewer partial
+var map;
+var mapMarkers = [];
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 11,

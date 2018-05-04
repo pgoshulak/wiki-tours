@@ -1,15 +1,39 @@
 <script>
   // Pass these variables from EJS template into JS script below
+  // Demo purposes only - would need more precautions / other method in production
   var mapId = <%- mapId %>;
   var mapData = <%- JSON.stringify(mapData) %>;
   var mapPoints = <%- JSON.stringify(mapPoints) %>;
   var mapFavourites = <%- JSON.stringify(mapFavourites) %>;
+  console.log(mapData)
 </script>
-<script src="/scripts/map_viewer.js"></script>
-<div>
+<div id="map-container">
+  <div id="details-window" class="card">
+
+    <div id="map-details">
+      <div class="img-container">
+        <img src="<%= mapData.thumbnail_url %>" alt="<%= mapData.title %> thumbnail" class="card-img">
+      </div>
+      <div class="card-img-overlay text-white">
+        <h4 class="card-title"><%= mapData.title %></h4>
+      </div>
+      <div class="card-body">
+        <p class="card-text text-muted"><small><%= mapFavourites.length %> likes</small></p>
+        <p><%= mapData.description %></p>
+        <a id="details-expand" href="#">Details</a>
+        <p class="card-text text-muted">
+          <small>Last updated <%= `${mapData.date_updated.getFullYear()}/${mapData.date_updated.getMonth()+1}/${mapData.date_updated.getDate()} ` %></small>
+        </p>
+      </div>
+    </div>
+
+    <div id="points-list"></div>
+    <div id="point-details"></div>
+  </div>
   <div id="map"></div>
 </div>
 
+<script src="/scripts/map_viewer.js"></script>
 <script async defer
   src="<%= `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&callback=initMap` %>">
 </script>

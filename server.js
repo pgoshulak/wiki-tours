@@ -70,7 +70,7 @@ app.get("/map/:id", (req, res) => {
     mapsDb.getMapFavourites(mapId)
   ]).then(results => {
     // Store results for rendering
-    let [ mapData, mapPoints, mapFavourites ] = results;
+    let [ [mapData], mapPoints, mapFavourites ] = results;
 
     // Render the results
     res.render("index", {
