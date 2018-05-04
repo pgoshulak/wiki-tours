@@ -1,5 +1,7 @@
 @import 'global_vars';
 $thumbnail-height: 150px;
+$detail-window-width: 240px;
+
 #map-container {
   position: relative;
 }
@@ -15,12 +17,14 @@ $thumbnail-height: 150px;
   display: flex;
   top: calc(#{$nav-bar-height} + 50px);
   left: 20px;
-  width: 240px;
+  width: $detail-window-width;
   z-index: 1;
 }
 
 .img-container {
   height: $thumbnail-height;
+  overflow: hidden;
+  
   &:after {
     position: absolute;
     content: '';
@@ -30,11 +34,11 @@ $thumbnail-height: 150px;
     left: 0;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0))
   }
-  img {
+  #header-img {
+    width: $detail-window-width;
     object-fit: cover;
+    object-position: 50% 50%;
     height: 100%;
-    zoom: 2;
-    overflow: hidden;
   }
 }
 
@@ -43,9 +47,20 @@ $thumbnail-height: 150px;
 }
 
 #map-details {
-  display: none;
+  display: default;
 }
 
 #points-list {
-  
+  display: none;
+}
+
+#point-details {
+  display: none;
+}
+
+#points-list .point-entry {
+  cursor: pointer;
+  &:hover {
+    background-color: #EEE;
+  }
 }
