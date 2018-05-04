@@ -95,6 +95,13 @@ app.get("/map/:id/edit", (req, res) => {
   });
 });
 
+//-----------User Profile-------------
+app.get("/profile", (req, res) => {
+  res.render("index", {
+    partialName: "userProfile"
+  });
+});
+
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
 });
