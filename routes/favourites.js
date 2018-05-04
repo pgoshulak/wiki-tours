@@ -6,7 +6,7 @@ const router  = express.Router();
 module.exports = (knex) => {
 
   router.post("/:id/favourites", (req, res) => {
-    knex('points')
+    knex('favourites')
     .returning('id')
     .insert(
       {
@@ -33,10 +33,6 @@ module.exports = (knex) => {
       console.error(err);
     });
   });
-
-//   knex('accounts')
-// .where('activated', false)
-// .del()
 
   return router;
 }
