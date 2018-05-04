@@ -7,6 +7,7 @@ const ENV         = process.env.ENV || "development";
 const express     = require("express");
 const bodyParser  = require("body-parser");
 const sass        = require("node-sass-middleware");
+const cookieSession = require('cookie-session');
 const app         = express();
 
 const knexConfig  = require("./knexfile");
@@ -31,6 +32,15 @@ app.use(morgan('dev'));
 // Log knex SQL queries to STDOUT as well
 app.use(knexLogger(knex));
 
+// lets app use cookies
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2'],
+
+  // Cookie Options
+  maxAge: 24 * 60 * 60 * 1000 // 24 hours
+}))
+
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -53,10 +63,23 @@ app.use("/api/maps", mapsRoutes(mapsDb));
 
 app.use("/api/maps", favouritesRoutes(knex));
 
+app.use(cookieSession({
+  name: 'session',
+  secret: "COOKIE_SESSION_SECRET"
+}));
+
+//-----------cookie interceptor------------
+app.use((req, res, next) => {
+  const user_id = req.session.user_id || -1;
+  req.currentUser = user_id;
+  next();
+});
+
 // Home page
 app.get("/", (req, res) => {
   res.render("index", {
-    partialName: 'featured'
+    partialName: 'featured',
+    user: req.currentUser
   });
 });
 
@@ -70,7 +93,7 @@ app.get("/map/:id", (req, res) => {
     mapsDb.getMapFavourites(mapId)
   ]).then(results => {
     // Store results for rendering
-    let [ mapData, mapPoints, mapFavourites ] = results;
+    let [ [mapData], mapPoints, mapFavourites ] = results;
 
     // Render the results
     res.render("index", {
@@ -78,7 +101,8 @@ app.get("/map/:id", (req, res) => {
       mapId,
       mapData,
       mapPoints,
-      mapFavourites
+      mapFavourites,
+      user: req.currentUser
     });
   }).catch(err => {
     console.error(err);
@@ -91,24 +115,30 @@ app.get("/map/:id/edit", (req, res) => {
   // ...
   res.render("index", {
     partialName: 'map_editor',
-    mapId: req.params.id
+    mapId: req.params.id,
+    user: req.currentUser
   });
 });
 
 //-----------User Profile-------------
 app.get("/profile", (req, res) => {
   res.render("index", {
-    partialName: "userProfile"
+    partialName: "userProfile",
+    user: req.currentUser
   });
 });
 
 //-----------Login--------------------
-app.get('/login', (request, response) => {
-    //request.session.user_id = request.params.id;
-    res.cookie('user_id',{ user_id: 1});
-    resonse.redirect('/');
+app.get('/login', (req, res) => {
+    req.session.user_id = 1;
+    res.redirect('/');
   });
 
+app.get('/logout', (req, res) => {
+    req.session = null;
+    res.redirect('/');
+  });
+//---------------------------------------
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
