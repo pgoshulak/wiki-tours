@@ -3,11 +3,10 @@
 const express = require('express');
 const router = express.Router();
 
-module.exports = (knex) => {
-  const users = require('../modules/users.js')(knex);
+module.exports = (usersDb) => {
 
   router.get("/", (req, res) => {
-    users.getAllUsers()
+    usersDb.getAllUsers()
       .then((results) => {
         res.json(results);
       }).catch(function (err) {
@@ -16,7 +15,7 @@ module.exports = (knex) => {
   });
 
   router.get("/:id", (req, res) => {
-    users.getUser(req.params.id)
+    usersDb.getUser(req.params.id)
       .then((results) => {
         res.json(results);
       }).catch(function (err) {
@@ -25,7 +24,7 @@ module.exports = (knex) => {
   });
 
   router.get("/:id/favourites", (req, res) => {
-    users.getUserFavourites(req.params.id)
+    usersDb.getUserFavourites(req.params.id)
       .then((results) => {
         res.json(results);
       })
