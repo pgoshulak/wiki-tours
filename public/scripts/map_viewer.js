@@ -3,7 +3,7 @@ var mapData;
 var mapPointsData = [];
 var mapMarkers = [];
 
-$.get(`/api/maps/${mapId}`)
+/* $.get(`/api/maps/${mapId}`)
   .then((result) => {
     mapData = result;
   })
@@ -12,7 +12,7 @@ $.get(`/api/maps/${mapId}/points`)
     results.forEach((point) => {
       mapPointsData.push(point);
     })
-  })
+  }) */
 
 // Initialize the Map view
 // Callback after loading the Maps JS API from <script> at bottom of the viewer partial
@@ -23,7 +23,7 @@ function initMap() {
   })
 
   // Temporary timeout until mapdata is loaded server-side and we don't need to wait for $.get()
-  setTimeout(() => {
+  /* setTimeout(() => {
     if (mapPointsData.length) {
       mapPointsData.forEach((point, pointIndex) => {
         setTimeout(()=> {
@@ -39,5 +39,5 @@ function initMap() {
     } else {
       console.log('no markers loaded')
     }
-  }, 500);
+  }, 500); */
 }
