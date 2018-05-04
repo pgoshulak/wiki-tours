@@ -62,10 +62,27 @@ app.get("/", (req, res) => {
 
 // Map viewer
 app.get("/map/:id", (req, res) => {
-  res.render("index", {
-    partialName: 'map_viewer',
-    mapId: req.params.id
-  });
+  let mapId = req.params.id;
+
+  Promise.all([
+    mapsDb.getMapData(mapId),
+    mapsDb.getMapPoints(mapId),
+    mapsDb.getMapFavourites(mapId)
+  ]).then(results => {
+    // Store results for rendering
+    let [ mapData, mapPoints, mapFavourites ] = results;
+
+    // Render the results
+    res.render("index", {
+      partialName: 'map_viewer',
+      mapId,
+      mapData,
+      mapPoints,
+      mapFavourites
+    });
+  }).catch(err => {
+    console.error(err);
+  })
 });
 
 // Map editor

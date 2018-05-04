@@ -1,6 +1,9 @@
 <script>
   // Pass these variables from EJS template into JS script below
-  let mapId = <%= mapId %>;
+  var mapId = <%- mapId %>;
+  var mapData = <%- JSON.stringify(mapData) %>;
+  var mapPoints = <%- JSON.stringify(mapPoints) %>;
+  var mapFavourites = <%- JSON.stringify(mapFavourites) %>;
 </script>
 <script src="/scripts/map_viewer.js"></script>
 <div>
