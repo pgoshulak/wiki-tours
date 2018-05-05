@@ -6,7 +6,7 @@ var mapMarkers = [];
 var mapPoints = [];
 
 
-// --------- Fetch info from database -----------
+// --------- Fetch from/update to database -----------
 function getMapData() {
   return $.get(`/api/maps/${mapId}`)
 }
@@ -15,11 +15,23 @@ function getMapPoints() {
   return $.get(`/api/maps/${mapId}/points`)
 }
 
+function updateMapData(data) {
+  return $.ajax({
+    method: 'PUT',
+    url: `/api/maps/${mapId}`,
+    data: data
+  })
+}
+
 // --------- Render to screen ------------
 
 function renderHeaderMaster(mapData) {
   $('#header-img').attr('src', mapData.thumbnail_url);
-  $('#header-text').text(mapData.title);
+  $('#header-text-input').text(mapData.title);
+}
+
+function renderDescription(mapData) {
+  $('#description-input').text(mapData.description);
 }
 
 function renderHeaderPointDetail(point) {
@@ -63,16 +75,16 @@ function makeMapMarker(point) {
 // Transform the list of point data into map markers
 function makeAllMapPoints(mapPoints) {
   mapMarkers = [];
-  mapPoints.forEach(function(point) {
+  mapPoints.forEach(function (point) {
     makeMapMarker(point)
   })
 }
 
 // Zoom and recenter the map to show all points
-function zoomToAllPoints() {  
+function zoomToAllPoints() {
   // Initialize map boundaries
   var bounds = new google.maps.LatLngBounds();
-  mapMarkers.forEach(function(marker) {
+  mapMarkers.forEach(function (marker) {
     bounds.extend(marker.position);
   });
   map.fitBounds(bounds);
@@ -104,6 +116,22 @@ $(document).ready(function () {
     var pointIndex = $(this).data('point-index');
     showPointDetail(pointIndex);
   })
+
+  // Handlers for updating data to database
+  $('#header-text-input').on('change', function(data) {
+    updateMapData({
+      title: $(this).val()
+    }).then(function (){
+      console.log('saved title')
+    })
+  })
+  $('#description-input').on('change', function(data) {
+    updateMapData({
+      description: $(this).val()
+    }).then(function (){
+      console.log('saved description')
+    })
+  })
 })
 
 function initMap() {
@@ -115,11 +143,12 @@ function initMap() {
   getMapData()
     .then(function (data) {
       mapData = data[0];
-      renderHeaderMaster(data[0])
+      renderHeaderMaster(mapData)
+      renderDescription(mapData)
     });
 
   getMapPoints()
-    .then(function(data) {
+    .then(function (data) {
       mapPoints = data;
       makeAllMapPoints(data);
       zoomToAllPoints();
