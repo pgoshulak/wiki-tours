@@ -18,12 +18,25 @@
     </ul>
 
     <ul class="nav navbar-nav ml-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Sign Up<span class="sr-only">(current)</span></a>
-      </li>
+
+      <!-- navbar changes if user in logined in or not -->
+      <% if(user === -1){ %>
+
+        <li class="nav-item active">
+          <a class="nav-link" href="/login">Login<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Sign Up<span class="sr-only">(current)</span></a>
+        </li>
+
+      <% } else { %>
+
+        <li class="nav-item active">
+          <a class="nav-link" href="/logout">Logout<span class="sr-only">(current)</span></a>
+        </li>
+
+       <% } %>
+
     </ul>
   </div>
 </nav>

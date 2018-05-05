@@ -35,7 +35,7 @@
           <a id="list-show-details" href="#"><small>&laquo; Map Info</small></a>
         </li>
 
-        <% mapPoints.forEach((point, pointIndex) => { 
+        <% mapPoints.forEach((point, pointIndex) => {
           console.log(`point ${pointIndex}: ${point.name}`) %>
           <li class="list-group-item point-entry" data-point-index="<%= pointIndex%>" >
             <%= point.title %>
@@ -43,8 +43,6 @@
         <% }) %>
       </ul>
     </div>
-
-
     <div id="point-details">
       <div class="card-body">
         <p><a id="point-show-list" href="#"><small>&laquo; Map points</small></a></p>

@@ -1,5 +1,6 @@
 @import 'global_vars';
 $thumbnail-height: 150px;
+
 $detail-window-width: 240px;
 
 #map-container {
@@ -24,7 +25,7 @@ $detail-window-width: 240px;
 .img-container {
   height: $thumbnail-height;
   overflow: hidden;
-  
+
   &:after {
     position: absolute;
     content: '';
@@ -64,3 +65,4 @@ $detail-window-width: 240px;
     background-color: #EEE;
   }
 }
+
