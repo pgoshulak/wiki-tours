@@ -5,6 +5,7 @@ var mapData = {}
 var mapMarkers = [];
 var mapPoints = [];
 var ClickEventHandler;
+var lastPlace;
 
 
 // --------- Fetch from/update to database -----------
@@ -32,7 +33,7 @@ function updatePointData(data, pointId) {
   })
 }
 
-function addNewPoint(title, lat, lng) {
+function addNewPoint(title, lat, lng, image_url) {
   console.log('Adding', title, lat, lng)
   var ownerApproved = false;
   if (mapData.owner_id = user_id) {
@@ -46,7 +47,8 @@ function addNewPoint(title, lat, lng) {
       latitude: lat.toString(),
       longitude: lng.toString(),
       contributor_id: user_id,
-      owner_approved: ownerApproved
+      owner_approved: ownerApproved,
+      image_url: image_url
     }
   })
 }
@@ -174,13 +176,16 @@ function ClickEventHandler(map) {
     var placeName = 'New point';
     var placeDetails = 'Click "Add" to add this point to your map';
     var placePosition;
+    var placeImageUrl = '';
     var me = this
 
     // If this was passed a 'place' (with name, address, etc), render the place info
     if (place && place.geometry) {
+      lastPlace = place
       placeName = place.name;
       placeDetails = place.adr_address;
       placePosition = place.geometry.location
+      placeImageUrl = place.photos[0].getUrl({maxWidth: 500, maxHeight: 500})
 
       // Otherwise, only a lat/lng position was passed
     } else {
@@ -199,7 +204,7 @@ function ClickEventHandler(map) {
     // Note: using $().off() and elem.removeEventListener() did NOT work to clear old listener.
     this.infoWindowContent.children['infowindow-btn'].onclick = function () {
       me.infoWindow.close();
-      addNewPoint(placeName, placePosition.lat(), placePosition.lng())
+      addNewPoint(placeName, placePosition.lat(), placePosition.lng(), placeImageUrl)
         .then(function(){
           return getMapPoints()
         }).then(function (data) {

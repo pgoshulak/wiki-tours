@@ -62,7 +62,8 @@ module.exports = (knex) => {
           title: pointData.title,
           latitude: pointData.latitude,
           longitude: pointData.longitude,
-          owner_approved: pointData.owner_approved
+          owner_approved: pointData.owner_approved,
+          image_url: pointData.image_url
         })
     },
 
