@@ -23,20 +23,35 @@ function updateMapData(data) {
   })
 }
 
+function updatePointData(data, pointId) {
+  return $.ajax({
+    method: 'PUT',
+    url: `/api/maps/${mapId}/points/${pointId}`,
+    data: data
+  })
+}
+
 // --------- Render to screen ------------
 
 function renderHeaderMaster(mapData) {
   $('#header-img').attr('src', mapData.thumbnail_url);
-  $('#header-text-input').text(mapData.title);
+  $('#header-text-input')
+    .removeClass('header-point')
+    .addClass('header-master')
+    .text(mapData.title);
 }
 
 function renderDescription(mapData) {
   $('#description-input').text(mapData.description);
 }
 
-function renderHeaderPointDetail(point) {
+function renderHeaderPointDetail(point, pointIndex) {
   $('#header-img').attr('src', point.image_url);
-  $('#header-text-input').text(point.title);
+  $('#header-text-input')
+    .removeClass('header-master')
+    .addClass('header-point')
+    .data('point-index', pointIndex)
+    .text(point.title);
 }
 
 function renderPointsToList(mapPoints) {
@@ -48,7 +63,7 @@ function renderPointsToList(mapPoints) {
       .addClass('list-group-item point-entry')
       .data('point-index', pointIndex)
       .text(point.title)
-      .appendTo($pointsList);  
+      .appendTo($pointsList);
   })
 }
 
@@ -60,8 +75,10 @@ function renderPointDetail(pointIndex) {
   $('#points-list').hide();
   $('#point-details').show();
 
-  renderHeaderPointDetail(point);
-  $('#point-description-input').text(point.description);
+  renderHeaderPointDetail(point, pointIndex);
+  $('#point-description-input')
+    .text(point.description)
+    .data('point-index', pointIndex);
   panMap(point.latitude, point.longitude)
 }
 
@@ -133,19 +150,48 @@ $(document).ready(function () {
   })
 
   // Handlers for updating data to database
-  $('#header-text-input').on('change', function(data) {
-    updateMapData({
-      title: $(this).val()
-    }).then(function (){
-      console.log('saved title')
-    })
+  $('#header-text-input').on('change', function (event) {
+    // Check for master map title change
+    if ($(event.target).hasClass('header-master')) {
+      updateMapData({
+        title: $(this).val()
+      }).then(function () {
+        console.log('saved title')
+      })
+
+      // Check for Point title change
+    } else if ($(event.target).hasClass('header-point')) {
+      // Get the point from the point list
+      var pointIndex = $(event.target).data('point-index');
+      var point = mapPoints[pointIndex];
+      var pointId = point.id
+
+      // Update the data
+      updatePointData({
+          title: $(this).val()
+        }, pointId)
+        .then(function () {
+          console.log('saved point', pointIndex)
+        })
+    }
   })
-  $('#description-input').on('change', function(data) {
+  $('#description-input').on('change', function (data) {
     updateMapData({
       description: $(this).val()
-    }).then(function (){
+    }).then(function () {
       console.log('saved description')
     })
+  })
+  $('#point-description-input').on('change', function (event) {
+    var pointIndex = $(event.target).data('point-index');
+    var point = mapPoints[pointIndex];
+    var pointId = point.id
+    updatePointData({
+        description: $(this).val()
+      }, pointId)
+      .then(function () {
+        console.log('saved point description', pointIndex)
+      })
   })
 })
 

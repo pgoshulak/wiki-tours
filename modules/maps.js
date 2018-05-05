@@ -83,6 +83,14 @@ module.exports = (knex) => {
         })
         .update({ ...mapData
         })
+    },
+
+    updatePoint(point_id, pointData) {
+      return knex('points')
+        .where({
+          id: point_id
+        })
+        .update({ ...pointData })
     }
   }
 }

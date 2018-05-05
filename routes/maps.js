@@ -74,5 +74,14 @@ module.exports = (mapsDb) => {
       });
   });
 
+  router.put("/:map_id/points/:point_id", (req, res) => {
+    mapsDb.updatePoint(req.params.point_id, req.body)
+      .then(results => {
+        res.json(results);
+      }).catch(function (err) {
+        console.error(err);
+      });
+  });
+
   return router;
 }
