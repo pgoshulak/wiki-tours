@@ -198,8 +198,15 @@ function ClickEventHandler(map) {
     // Set *single* click handler for 'Add' button
     // Note: using $().off() and elem.removeEventListener() did NOT work to clear old listener.
     this.infoWindowContent.children['infowindow-btn'].onclick = function () {
-      addNewPoint(placeName, placePosition.lat(), placePosition.lng());
       me.infoWindow.close();
+      addNewPoint(placeName, placePosition.lat(), placePosition.lng())
+        .then(function(){
+          return getMapPoints()
+        }).then(function (data) {
+          mapPoints = data;
+          makeAllMapPoints(data);
+          renderPointsToList(mapPoints)
+        })
     }
 
     // Open infowindow
