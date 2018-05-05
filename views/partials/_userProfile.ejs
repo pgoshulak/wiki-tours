@@ -1,22 +1,51 @@
+<script>
+  var userMaps = <%- JSON.stringify(userMaps) %>;
+  var userFavourites = <%- JSON.stringify(userFavourites) %>;
+  var UserContributed = <%- JSON.stringify(UserContributed) %>;
+  var userInfo = <%- JSON.stringify(userInfo[0]) %>;
+  console.log(userInfo.first_name);
+
+  var todaysDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+  //console.log(todaysDate);
+</script>
 
 <style>
   .edit-button{
     float: right
   }
+
+  .map-body{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .map-image img{
+    height: 300px;
+    width: 400px;
+  }
+
+  .profile-description{
+    padding-left: 55px;
+  }
+
+  .container {
+    padding-top: 15px;
+  }
+
 </style>
 
 <div class="container">
   <div class="row">
-    <div class="text-center col-md-2">
+    <div class="text-center col-md-2 profile-avatar">
       <img src="https://www.fillmurray.com/140/200" class="rounded" alt="profile picutre">
     </div>
-    <div class="col-md-6">
-      Welcome back! User Name
+    <div class="col-md-6 profile-description">
       <p>
-        Joined date: 2016/05/05<br/>
-        Last visited: 2018/05/04<br/>
-        Maps Created: 20<br/>
-        Maps Liked by others: 300
+        Welcome back! <%= userInfo[0].first_name %> <%= userInfo[0].last_name %><br />
+        Joined date: <%= userInfo[0].date_joined %> <br/>
+        Last visited: <%= new Date(); %><br/>
+        Maps Created: <%= Object.keys(userMaps).length%><br/>
+        Maps Contributed To: <%= Object.keys(UserContributed).length%>
       </p>
     </div>
   </div>
@@ -24,40 +53,35 @@
 
 <div class="row">
   <div class="col-md-1"></div>
+
   <div class="nav flex-column nav-pills col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Your Maps</a>
     <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Favourites</a>
     <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Contributed Maps</a>
   </div>
+
   <div class="col-md-8" style="width: 100%">
     <div class="tab-content" id="v-pills-tabContent" >
       <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-        <ul class="list-group">
-          <li class="list-group-item list-group-item-action"><a href="#">Make New Map</a></li>
-          <li class="list-group-item">Dapibus ac facilisis in <button class="edit-button">Edit</button></li>
-          <li class="list-group-item">Morbi leo risus <button class="edit-button">Edit</button></li>
-          <li class="list-group-item">Porta ac consectetur ac <button class="edit-button">Edit</button></li>
-          <li class="list-group-item">Vestibulum at eros <button class="edit-button">Edit</button></li>
+        <ul class="list-group" id="user-maps">
+          <li class="list-group-item"><a href="#">Create New Map</a></li>
+          <!--User maps go here -->
         </ul>
       </div>
       <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-        <ul class="list-group">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Morbi leo risus</li>
-          <li class="list-group-item">Porta ac consectetur ac</li>
-          <li class="list-group-item">Vestibulum at eros</li>
+        <ul class="list-group" id="user-favourites">
+          <!--User favourite maps-->
+
         </ul>
       </div>
       <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-        <ul class="list-group">
-          <li class="list-group-item">Cras justo odio</li>
-          <li class="list-group-item">Dapibus ac facilisis in</li>
-          <li class="list-group-item">Morbi leo risus</li>
-          <li class="list-group-item">Porta ac consectetur ac</li>
-          <li class="list-group-item">Vestibulum at eros</li>
+        <ul class="list-group" id="user-contributed">
+          <!--user contributed maps here-->
+
         </ul>
       </div>
     </div>
   </div>
 </div>
+
+<script src="/scripts/user_profile.js"></script>

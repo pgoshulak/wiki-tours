@@ -10,7 +10,7 @@ module.exports = (knex) => {
         .select("*")
         .from("users")
     },
-    // Get all users in the database
+    // Get users by id in the database
     getUser(id) {
       return knex
         .select("*")
@@ -21,12 +21,17 @@ module.exports = (knex) => {
     },
     // Get all users in the database
     getUserFavourites(user_id) {
-      return knex
-        .select("*")
-        .from("favourites")
-        .where({
-          user_id: user_id
-        })
+      return knex('favourites')
+        .join('maps', 'favourites.map_id', '=', 'maps.id')
+        .where ({user_id: user_id})
+        .select('*')
+    },
+
+    getUserContributedMaps(user_id){
+      return knex('maps')
+        .join('points' , 'maps.id', '=', 'map_id')
+        .where({contributor_id: user_id})
+        .select('*')
     }
   }
 }

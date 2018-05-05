@@ -125,10 +125,27 @@ app.get("/map/:id/edit", (req, res) => {
 
 //-----------User Profile-------------
 app.get("/profile", (req, res) => {
-  res.render("index", {
-    partialName: "userProfile",
-    user: req.currentUser
-  });
+  var user_id = req.session.user_id
+
+  Promise.all([
+    mapsDb.getUserMap(user_id),
+    usersDb.getUserFavourites(user_id),
+    usersDb.getUserContributedMaps(user_id),
+    usersDb.getUser(user_id)
+  ]).then(results => {
+    var [userMaps, userFavourites, UserContributed, user] = results;
+    console.log(user)
+    res.render("index", {
+      partialName: "userProfile",
+      user: req.currentUser,
+      userInfo: user,
+      userMaps: userMaps,
+      userFavourites: userFavourites,
+      UserContributed: UserContributed
+    });
+  }).catch(err => {
+    console.error(err);
+  })
 });
 
 //-----------Login--------------------

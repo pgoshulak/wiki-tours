@@ -43,6 +43,13 @@ module.exports = (knex) => {
           map_id: map_id
         })
     },
+
+    getUserMap(user_id) {
+      return knex('maps')
+        .select('*')
+        .from('maps')
+        .where({owner_id: user_id})
+    },
     // ----------------- POST Routes ---------------------
 
     // Post a point
