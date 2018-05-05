@@ -58,6 +58,7 @@ function renderPointsToList(mapPoints) {
   var $pointsList = $('#points-list ul');
   $pointsList.empty();
 
+  // Append each point to the list
   mapPoints.forEach(function (point, pointIndex) {
     $('<li>')
       .addClass('list-group-item point-entry')
