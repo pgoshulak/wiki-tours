@@ -1,4 +1,50 @@
-<script src="/scripts/map_editor.js"></script>
-<div>
-  <h1>Map Editor</h1>
+<script>
+  // Pass these variables from EJS template into JS script below
+  // Demo purposes only - would need more precautions / other method in production
+  var mapId = <%- mapId %>;
+  // var mapData = <%- JSON.stringify(1) %>;
+</script>
+<div id="map-container">
+  <div id="details-window" class="card">
+    <div id="details-header">
+      <div class="img-container">
+        <img id="header-img" src="" alt="thumbnail">
+      </div>
+    </div>
+    <div class="card-img-overlay text-white">
+      <h4 id="header-text" class="card-title"></h4>
+    </div>
+
+    <div id="map-details">
+      <div class="card-body">
+        <p>Description goes here</p>
+        <a id="details-show-list" href="#">Details</a>
+      </div>
+    </div>
+
+    <div id="points-list">
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a id="list-show-details" href="#"><small>&laquo; Map Info</small></a>
+        </li>
+        <li class="list-group-item point-entry" data-point-index="-1" >
+          Point title here
+        </li>
+      </ul>
+    </div>
+
+
+    <div id="point-details">
+      <div class="card-body">
+        <p><a id="point-show-list" href="#"><small>&laquo; Map points</small></a></p>
+        <p id="point-description">No description</p>
+      </div>
+    </div>
+  </div>
+  <div id="map"></div>
 </div>
+
+<script src="/scripts/map_editor.js"></script>
+<script async defer
+  src="<%= `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&callback=initMap` %>">
+</script>

@@ -89,10 +89,13 @@ app.get("/map/:id", (req, res) => {
 app.get("/map/:id/edit", (req, res) => {
   // Check for user logged in here
   // ...
+  let mapId = req.params.id;
   res.render("index", {
     partialName: 'map_editor',
-    mapId: req.params.id
-  });
+    mapId
+  }).catch(err => {
+    console.error(err);
+  })
 });
 
 //-----------User Profile-------------
