@@ -60,9 +60,6 @@ module.exports = (knex) => {
           map_id: map_id,
           contributor_id: pointData.user_id,
           title: pointData.title,
-          description: pointData.description,
-          image_url: pointData.image_url,
-          embed_url: pointData.embed_url,
           latitude: pointData.latitude,
           longitude: pointData.longitude,
           owner_approved: pointData.owner_approved

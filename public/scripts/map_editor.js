@@ -32,8 +32,23 @@ function updatePointData(data, pointId) {
   })
 }
 
-function addNewPoint(name, lat, lng) {
-  console.log('Adding', name, lat, lng)
+function addNewPoint(title, lat, lng) {
+  console.log('Adding', title, lat, lng)
+  var ownerApproved = false;
+  if (mapData.owner_id = user_id) {
+    ownerApproved = true;
+  }
+  return $.ajax({
+    method: 'POST',
+    url: `/api/maps/${mapId}/points`,
+    data: {
+      title: title,
+      latitude: lat.toString(),
+      longitude: lng.toString(),
+      contributor_id: user_id,
+      owner_approved: ownerApproved
+    }
+  })
 }
 
 // --------- Render to screen ------------
