@@ -32,6 +32,10 @@ function updatePointData(data, pointId) {
   })
 }
 
+function addNewPoint(name, lat, lng) {
+  console.log('Adding', name, lat, lng)
+}
+
 // --------- Render to screen ------------
 
 function renderHeaderMaster(mapData) {
@@ -139,7 +143,7 @@ function ClickEventHandler(map) {
   this.infoWindow.setContent(this.infoWindowContent);
 
   // Click handler for clicking on Point Of Interest
-  this.handleClick = function(event) {
+  this.handleClick = function (event) {
     if (event.placeId) {
       this.getPlaceInfo(event.placeId)
       event.stop()
@@ -151,35 +155,55 @@ function ClickEventHandler(map) {
   this.map.addListener('click', this.handleClick.bind(this));
 
   // Open the info window
-  this.openInfoWindow = function(place) {
-    this.infoWindow.close();
-    
+  this.openInfoWindow = function (place) {
+    var placeName = 'New point';
+    var placeDetails = 'Click "Add" to add this point to your map';
+    var placePosition;
+    var me = this
+
     // If this was passed a 'place' (with name, address, etc), render the place info
     if (place && place.geometry) {
-      this.infoWindow.setPosition(place.geometry.location);
-      this.infoWindowContent.children['infowindow-name'].textContent = place.name;
-      this.infoWindowContent.children['infowindow-address'].innerHTML = place.adr_address;
+      placeName = place.name;
+      placeDetails = place.adr_address;
+      placePosition = place.geometry.location
 
       // Otherwise, only a lat/lng position was passed
     } else {
-      this.infoWindow.setPosition(place);
-      this.infoWindowContent.children['infowindow-name'].textContent = 'New point';
-      this.infoWindowContent.children['infowindow-address'].innerHTML = 'Click "Add" to add this point to your map';
+      placePosition = place
     }
+
+    // Close existing window
+    this.infoWindow.close();
+
+    // Set new info
+    this.infoWindow.setPosition(placePosition);
+    this.infoWindowContent.children['infowindow-name'].textContent = placeName;
+    this.infoWindowContent.children['infowindow-address'].innerHTML = placeDetails;
+    
+    // Set *single* click handler for 'Add' button
+    // Note: using $().off() and elem.removeEventListener() did NOT work to clear old listener.
+    this.infoWindowContent.children['infowindow-btn'].onclick = function () {
+      addNewPoint(placeName, placePosition.lat(), placePosition.lng());
+      me.infoWindow.close();
+    }
+
+    // Open infowindow
     this.infoWindow.open(this.map);
   }
 
   // Get place info from PlacesService API
-  this.getPlaceInfo = function(placeId) {
+  this.getPlaceInfo = function (placeId) {
     var me = this;
-    this.placesService.getDetails({placeId: placeId}, function(place, status) {
+    this.placesService.getDetails({
+      placeId: placeId
+    }, function (place, status) {
       if (status === 'OK') {
         me.openInfoWindow(place)
       }
     })
   }
 
-  
+
 }
 
 $(document).ready(function () {
