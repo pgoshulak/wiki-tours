@@ -135,29 +135,51 @@ function ClickEventHandler(map) {
   this.map = map
   this.placesService = new google.maps.places.PlacesService(map);
   this.infoWindow = new google.maps.InfoWindow;
-  this.infoWindow.setContent(document.getElementById('infowindow-content'))
+  this.infoWindowContent = document.getElementById('infowindow-content');
+  this.infoWindow.setContent(this.infoWindowContent);
 
   // Click handler for clicking on Point Of Interest
   this.handleClick = function(event) {
     if (event.placeId) {
-      console.log('clicked on ', event.placeId)
       this.getPlaceInfo(event.placeId)
       event.stop()
     } else {
-      console.log('clicked on nothing')
+      this.openInfoWindow(event.latLng);
+      event.stop()
     }
   }
   this.map.addListener('click', this.handleClick.bind(this));
 
-  // Get place info
+  // Open the info window
+  this.openInfoWindow = function(place) {
+    this.infoWindow.close();
+    
+    // If this was passed a 'place' (with name, address, etc), render the place info
+    if (place && place.geometry) {
+      this.infoWindow.setPosition(place.geometry.location);
+      this.infoWindowContent.children['infowindow-name'].textContent = place.name;
+      this.infoWindowContent.children['infowindow-address'].innerHTML = place.adr_address;
+
+      // Otherwise, only a lat/lng position was passed
+    } else {
+      this.infoWindow.setPosition(place);
+      this.infoWindowContent.children['infowindow-name'].textContent = 'New point';
+      this.infoWindowContent.children['infowindow-address'].innerHTML = 'Click "Add" to add this point to your map';
+    }
+    this.infoWindow.open(this.map);
+  }
+
+  // Get place info from PlacesService API
   this.getPlaceInfo = function(placeId) {
+    var me = this;
     this.placesService.getDetails({placeId: placeId}, function(place, status) {
       if (status === 'OK') {
-        console.log(place.name)
-        console.log(place.geometry.location.lat(), place.geometry.location.lng())
+        me.openInfoWindow(place)
       }
     })
   }
+
+  
 }
 
 $(document).ready(function () {
