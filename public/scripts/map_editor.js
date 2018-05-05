@@ -36,37 +36,51 @@ function renderDescription(mapData) {
 
 function renderHeaderPointDetail(point) {
   $('#header-img').attr('src', point.image_url);
-  $('#header-text').text(point.title);
+  $('#header-text-input').text(point.title);
+}
+
+function renderPointsToList(mapPoints) {
+  var $pointsList = $('#points-list ul')[0];
+  // $pointsList.empty();
+
+  mapPoints.forEach(function (point, pointIndex) {
+    $('<li>')
+      .addClass('list-group-item point-entry')
+      .data('point-index', pointIndex)
+      .text(point.title)
+      .appendTo($pointsList);  
+  })
 }
 
 // Display a point's details in the window
 function renderPointDetail(pointIndex) {
   var point = mapPoints[pointIndex];
+  // Display the correct screen in the pane
   $('#map-details').hide();
   $('#points-list').hide();
   $('#point-details').show();
+
   renderHeaderPointDetail(point);
-  $('#point-description').text(point.description);
+  $('#point-description-input').text(point.description);
   panMap(point.latitude, point.longitude)
 }
 
 // --------- Map functions -------------
 
 // Create a single map marker from a data point
-function makeMapMarker(point) {
+function makeMapMarker(point, pointIndex) {
   // Store lat/lng
   var position = new google.maps.LatLng(Number(point.latitude), Number(point.longitude))
   // Create a 'pin' marker on the map
   var marker = new google.maps.Marker({
     map: map,
     draggable: false,
-    animation: google.maps.Animation.DROP,
     position: position
   });
 
   // Add click listener to reveal point details in panel
   marker.addListener('click', function () {
-    showPointDetail(pointIndex);
+    renderPointDetail(pointIndex);
   })
   // Track this marker in the master list
   mapMarkers.push(marker);
@@ -75,8 +89,8 @@ function makeMapMarker(point) {
 // Transform the list of point data into map markers
 function makeAllMapPoints(mapPoints) {
   mapMarkers = [];
-  mapPoints.forEach(function (point) {
-    makeMapMarker(point)
+  mapPoints.forEach(function (point, pointIndex) {
+    makeMapMarker(point, pointIndex)
   })
 }
 
@@ -110,11 +124,12 @@ $(document).ready(function () {
   $('#point-show-list').on('click', function () {
     $('#point-details').hide();
     $('#points-list').show();
-    renderHeaderMaster();
+    renderHeaderMaster(mapData);
+    renderDescription(mapData);
   })
   $('#points-list').on('click', '.point-entry', function () {
     var pointIndex = $(this).data('point-index');
-    showPointDetail(pointIndex);
+    renderPointDetail(pointIndex);
   })
 
   // Handlers for updating data to database
@@ -152,5 +167,6 @@ function initMap() {
       mapPoints = data;
       makeAllMapPoints(data);
       zoomToAllPoints();
+      renderPointsToList(mapPoints)
     })
 }
