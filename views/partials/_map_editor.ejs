@@ -42,7 +42,9 @@
   <div id="map"></div>
 </div>
 
+<div id="infowindow-content">Hello from infowindow</div>
+
 <script src="/scripts/map_editor.js"></script>
 <script async defer
-  src="<%= `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&callback=initMap` %>">
+  src="<%= `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&callback=initMap&libraries=places` %>">
 </script>

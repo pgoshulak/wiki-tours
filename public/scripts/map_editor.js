@@ -4,6 +4,7 @@ var map;
 var mapData = {}
 var mapMarkers = [];
 var mapPoints = [];
+var ClickEventHandler;
 
 
 // --------- Fetch from/update to database -----------
@@ -128,6 +129,37 @@ function panMap(lat, lng) {
   map.setZoom(13)
 }
 
+// Get a click's info
+// https://developers.google.com/maps/documentation/javascript/examples/event-poi
+function ClickEventHandler(map) {
+  this.map = map
+  this.placesService = new google.maps.places.PlacesService(map);
+  this.infoWindow = new google.maps.InfoWindow;
+  this.infoWindow.setContent(document.getElementById('infowindow-content'))
+
+  // Click handler for clicking on Point Of Interest
+  this.handleClick = function(event) {
+    if (event.placeId) {
+      console.log('clicked on ', event.placeId)
+      this.getPlaceInfo(event.placeId)
+      event.stop()
+    } else {
+      console.log('clicked on nothing')
+    }
+  }
+  this.map.addListener('click', this.handleClick.bind(this));
+
+  // Get place info
+  this.getPlaceInfo = function(placeId) {
+    this.placesService.getDetails({placeId: placeId}, function(place, status) {
+      if (status === 'OK') {
+        console.log(place.name)
+        console.log(place.geometry.location.lat(), place.geometry.location.lng())
+      }
+    })
+  }
+}
+
 $(document).ready(function () {
 
   // Handlers for swapping between window views
@@ -217,6 +249,7 @@ function initMap() {
     zoom: 10,
     center: new google.maps.LatLng(43.7, -79.4)
   })
+  clickHandler = new ClickEventHandler(map)
   getMapData()
     .then(function (data) {
       mapData = data[0];
