@@ -38,11 +38,11 @@ function renderHeaderMaster(mapData) {
   $('#header-text-input')
     .removeClass('header-point')
     .addClass('header-master')
-    .text(mapData.title);
+    .val(mapData.title);
 }
 
 function renderDescription(mapData) {
-  $('#description-input').text(mapData.description);
+  $('#description-input').val(mapData.description);
 }
 
 function renderHeaderPointDetail(point, pointIndex) {
@@ -51,12 +51,12 @@ function renderHeaderPointDetail(point, pointIndex) {
     .removeClass('header-master')
     .addClass('header-point')
     .data('point-index', pointIndex)
-    .text(point.title);
+    .val(point.title);
 }
 
 function renderPointsToList(mapPoints) {
-  var $pointsList = $('#points-list ul')[0];
-  // $pointsList.empty();
+  var $pointsList = $('#points-list ul');
+  $pointsList.empty();
 
   mapPoints.forEach(function (point, pointIndex) {
     $('<li>')
@@ -77,7 +77,7 @@ function renderPointDetail(pointIndex) {
 
   renderHeaderPointDetail(point, pointIndex);
   $('#point-description-input')
-    .text(point.description)
+    .val(point.description)
     .data('point-index', pointIndex);
   panMap(point.latitude, point.longitude)
 }
@@ -153,6 +153,9 @@ $(document).ready(function () {
   $('#header-text-input').on('change', function (event) {
     // Check for master map title change
     if ($(event.target).hasClass('header-master')) {
+      // Update the map's title in the local data object
+      mapData.title = $(this).val()
+
       updateMapData({
         title: $(this).val()
       }).then(function () {
@@ -166,16 +169,25 @@ $(document).ready(function () {
       var point = mapPoints[pointIndex];
       var pointId = point.id
 
+      // Update the point's title in the local point array
+      point.title = $(this).val();
+
       // Update the data
       updatePointData({
           title: $(this).val()
         }, pointId)
         .then(function () {
           console.log('saved point', pointIndex)
+          renderPointsToList(mapPoints)
         })
+    } else {
+      console.log('Error setting title');
     }
   })
   $('#description-input').on('change', function (data) {
+    // Update the map's description in the local data object
+    mapData.description = $(this).val();
+
     updateMapData({
       description: $(this).val()
     }).then(function () {
@@ -186,6 +198,9 @@ $(document).ready(function () {
     var pointIndex = $(event.target).data('point-index');
     var point = mapPoints[pointIndex];
     var pointId = point.id
+
+    // Update the point's description in the local point array
+    point.description = $(this).val();
     updatePointData({
         description: $(this).val()
       }, pointId)
