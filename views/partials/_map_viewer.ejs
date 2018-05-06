@@ -5,6 +5,7 @@
   var mapData = <%- JSON.stringify(mapData) %>;
   var mapPoints = <%- JSON.stringify(mapPoints) %>;
   var mapFavourites = <%- JSON.stringify(mapFavourites) %>;
+  var userId = <%- user %>
 </script>
 <div id="map-container">
   <div id="details-window" class="card">
@@ -22,7 +23,12 @@
         <p class="card-text">Category: 
           <a href="/category/<%= mapData.category_id %>"><%= mapData.category_id %> FIXME</a>
         </p>
-        <p class="card-text text-muted"><small><%= mapFavourites.length %> likes</small></p>
+
+        <button id="favourite-counter" class="btn btn-outline-secondary btn-sm">
+          <i class="fas fa-heart"></i>
+          <span id="favourite-counter-text" class="card-text"></span>
+        </button>
+
         <p><%= mapData.description %></p>
         <a id="details-show-list" href="#">Details</a>
         <p class="card-text text-muted">

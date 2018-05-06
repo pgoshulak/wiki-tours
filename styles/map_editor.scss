@@ -20,3 +20,24 @@
     outline: none;
   }
 }
+
+button#point-delete {
+  float: right;
+}
+
+button#img-change {
+  position: absolute;
+  z-index: 3;
+  border: none;
+  top: 5px;
+  right: 5px;
+
+  &:hover {
+    background-color: rgba(255,255,255,0.8)
+  }
+}
+
+#img-url-modal {
+  position: fixed;
+  top: 200px;
+}

@@ -58,27 +58,30 @@ module.exports = (knex) => {
         .returning('id')
         .insert({
           map_id: map_id,
-          contributor_id: pointData.user_id,
+          contributor_id: pointData.contributor_id,
           title: pointData.title,
-          description: pointData.description,
-          image_url: pointData.image_url,
-          embed_url: pointData.embed_url,
           latitude: pointData.latitude,
           longitude: pointData.longitude,
-          owner_approved: pointData.owner_approved
+          owner_approved: pointData.owner_approved,
+          image_url: pointData.image_url
         })
     },
 
     // Create a new map
-    addNewMap() {
+    addNewMap(user_id) {
       return knex('maps')
         .returning('id')
         .insert({
-          owner_id: "1",
-          category_id: req.body.category_id,
-          title: req.body.title,
-          description: req.body.description,
-          thumbnail_url: req.body.thumbnail_url
+          owner_id: user_id
+        })
+    },
+
+    // Favourite a map
+    addFavourite(mapId, userId) {
+      return knex('favourites')
+        .insert({
+          map_id: mapId,
+          user_id: userId
         })
     },
 
@@ -88,7 +91,8 @@ module.exports = (knex) => {
         .where({
           id: map_id
         })
-        .update({ ...mapData
+        .update({ ...mapData,
+          date_updated: knex.fn.now()
         })
     },
 
@@ -97,7 +101,26 @@ module.exports = (knex) => {
         .where({
           id: point_id
         })
-        .update({ ...pointData })
-    }
+        .update({ ...pointData,
+          date_updated: knex.fn.now()
+        })
+    },
+    
+    // ----------- DELETE Routes ---------------
+    deletePoint(point_id) {
+      return knex('points')
+        .where({id: point_id})
+        .del()
+    },
+    
+    // Unfavourite a map
+    removeFavourite(mapId, userId) {
+      return knex('favourites')
+        .where({
+          map_id: mapId,
+          user_id: userId
+        })
+        .del()
+    },
   }
 }

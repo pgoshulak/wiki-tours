@@ -2,6 +2,7 @@
   // Pass these variables from EJS template into JS script below
   // Demo purposes only - would need more precautions / other method in production
   var mapId = <%- mapId %>;
+  var userId = <%- user %>;
   // var mapData = <%- JSON.stringify(1) %>;
 </script>
 <div id="map-container">
@@ -9,6 +10,9 @@
     <div id="details-header">
       <div class="img-container">
         <img id="header-img" src="" alt="thumbnail">
+        <button id="img-change" class="btn btn-outline-light btn-sm" data-toggle="modal" data-target="#img-url-modal">
+          <i class="far fa-image fa-lg"></i>
+        </button>
       </div>
     </div>
     <div class="card-img-overlay text-white">
@@ -25,17 +29,19 @@
     </div>
 
     <div id="points-list">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <a id="list-show-details" href="#"><small>&laquo; Map Info</small></a>
-        </li>
-      </ul>
+      <p class="list-group-item">
+        <a id="list-show-details" href="#"><small>&laquo; Map Info</small></a>
+      </p>
+      <ul class="list-group"></ul>
     </div>
 
 
     <div id="point-details">
       <div class="card-body">
-        <p><a id="point-show-list" href="#"><small>&laquo; Map points</small></a></p>
+        <p>
+          <a id="point-show-list" href="#"><small>&laquo; Map points</small></a>
+          <button id="point-delete" type="button" class="btn btn-outline-danger btn-sm">Delete</button>
+        </p>
         <textarea id="point-description-input" class="form-control" placeholder="Tell us about this point" rows="6"></textarea>
       </div>
     </div>
@@ -43,7 +49,32 @@
   <div id="map"></div>
 </div>
 
+<div id="infowindow-content">
+  <button id="infowindow-btn" type="button" class="btn btn-primary btn-sm">Add</button>
+  <span id="infowindow-name" class="h5">Loading...</span>
+  <p id="infowindow-address">Loading...</p>
+</div>
+
+<div id="img-url-modal" class="modal modal-fade">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <label for="img-url-input">URL:</label>
+        <input id="img-url-input" class="form-control" type="text" placeholder="Image URL">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="img-url-save" class="btn btn-primary">Save</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+
 <script src="/scripts/map_editor.js"></script>
 <script async defer
-  src="<%= `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&callback=initMap` %>">
+  src="<%= `https://maps.googleapis.com/maps/api/js?key=${process.env.API_KEY}&callback=initMap&libraries=places` %>">
 </script>

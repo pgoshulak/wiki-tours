@@ -44,6 +44,7 @@ module.exports = (mapsDb) => {
 
   //---------Post Routes-----------
 
+  // Add new map point
   router.post("/:id/points", (req, res) => {
     mapsDb.addMapPoint(req.params.id, req.body)
       .then(results => {
@@ -53,7 +54,7 @@ module.exports = (mapsDb) => {
       });
   });
 
-  //make this work with cookies later for owner_id
+  // Add new map
   router.post("/", (req, res) => {
     mapsDb.addNewMap()
       .then(results => {
@@ -62,6 +63,16 @@ module.exports = (mapsDb) => {
         console.error(err);
       });
   });
+
+  // Set map to favourite
+  router.post('/:id/favourites', (req, res) => {
+    mapsDb.addFavourite(req.params.id, req.body.user_id)
+      .then(results => {
+        res.json(results);
+      }).catch(function (err) {
+        console.error(err);
+      });
+  })
 
   //--------PUT ROUTES--------------------
 
@@ -82,6 +93,27 @@ module.exports = (mapsDb) => {
         console.error(err);
       });
   });
+
+  // ----------- DELETE Routes -------------
+  router.delete("/:map_id/points/:point_id", (req, res) => {
+    mapsDb.deletePoint(req.params.point_id)
+      .then(results => {
+        res.json(results);
+      }).catch(function (err) {
+        console.error(err);
+      });
+  })
+
+  // Unfavourite a map
+  router.delete('/:id/favourites', (req, res) => {
+    mapsDb.removeFavourite(req.params.id, req.body.user_id)
+      .then(results => {
+        res.json(results);
+      }).catch(function (err) {
+        console.error(err);
+      });
+  })
+
 
   return router;
 }
