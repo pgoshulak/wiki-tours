@@ -5,7 +5,7 @@
   var userInfo = <%- JSON.stringify(userInfo[0]) %>;
   console.log(userInfo.first_name);
 
-  var todaysDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
+  var todaysDate = new Date().slice(0, -14);
 </script>
 
 <style>
