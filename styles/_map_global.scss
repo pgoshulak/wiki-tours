@@ -16,8 +16,8 @@ $detail-window-width: 240px;
 
 #edit-view-swap {
   position: fixed;
-  top: calc(#{nav-bar-height} + 50px);
-  right: 20px;
+  top: calc(#{$nav-bar-height} + 8px);
+  right: 50px;
   z-index: 1;
 }
 
