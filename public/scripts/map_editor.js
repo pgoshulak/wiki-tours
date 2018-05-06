@@ -67,6 +67,9 @@ function renderHeaderMaster(mapData) {
     .removeClass('header-point')
     .addClass('header-master')
     .val(mapData.title);
+  $('#img-url-input')
+    .val(mapData.thumbnail_url || '')
+    .data('target', 'master');
 }
 
 function renderDescription(mapData) {
@@ -80,6 +83,9 @@ function renderHeaderPointDetail(point, pointIndex) {
     .addClass('header-point')
     .data('point-index', pointIndex)
     .val(point.title);
+  $('#img-url-input')
+    .val(point.image_url || '')
+    .data('target', pointIndex);
 }
 
 function renderPointsToList(mapPoints) {
@@ -132,7 +138,6 @@ function makeMapMarker(point, pointIndex) {
   })
   // Track this marker in the master list
   mapMarkers.push(marker);
-  console.log(mapMarkers)
 }
 
 // Transform the list of point data into map markers
@@ -357,6 +362,27 @@ $(document).ready(function () {
         // Go back to the points list
         $('#point-show-list').trigger('click');
       })
+  })
+
+  // Change an image url
+  $('#img-url-save').on('click', function() {
+    var target = $('#img-url-input').data('target');
+    var url = $('#img-url-input').val();
+
+    // Close the image url modal
+    $('#img-url-modal').modal('hide');
+
+    // Force rerender of header image (calling master renderer not working)
+    $('#header-img').attr('src', url);
+    
+    // Update the map's thumbnail
+    if (target === 'master') {
+      mapData.thumbnail_url = url
+      updateMapData({thumbnail_url: url}).then()
+    } else {
+      var pointId = mapPoints[target].id
+      updatePointData({image_url: url}, pointId).then()
+    }
   })
 })
 

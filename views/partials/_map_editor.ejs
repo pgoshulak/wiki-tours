@@ -10,6 +10,9 @@
     <div id="details-header">
       <div class="img-container">
         <img id="header-img" src="" alt="thumbnail">
+        <button id="img-change" class="btn btn-outline-light btn-sm" data-toggle="modal" data-target="#img-url-modal">
+          <i class="far fa-image fa-lg"></i>
+        </button>
       </div>
     </div>
     <div class="card-img-overlay text-white">
@@ -51,6 +54,25 @@
   <span id="infowindow-name" class="h5">Loading...</span>
   <p id="infowindow-address">Loading...</p>
 </div>
+
+<div id="img-url-modal" class="modal modal-fade">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <label for="img-url-input">URL:</label>
+        <input id="img-url-input" class="form-control" type="text" placeholder="Image URL">
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button id="img-url-save" class="btn btn-primary">Save</button>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
 
 <script src="/scripts/map_editor.js"></script>
 <script async defer
