@@ -309,8 +309,6 @@ function ClickEventHandler(map) {
       }
     })
   }
-
-
 }
 
 $(document).ready(function () {
@@ -463,6 +461,8 @@ function initMap() {
     zoom: 10,
     center: new google.maps.LatLng(43.7, -79.4)
   })
+  map.panMap(map.center);
+  
   clickHandler = new ClickEventHandler(map)
   getMapData()
     .then(function (data) {
@@ -471,7 +471,6 @@ function initMap() {
       userIsOwner = (userId === mapData.owner_id)
       renderHeaderMaster(mapData)
       renderDescription(mapData)
-
     });
 
   getMapPoints()
