@@ -33,8 +33,14 @@ function updatePointData(data, pointId) {
   })
 }
 
+function deletePoint(pointId) {
+  return $.ajax({
+    method: 'DELETE',
+    url: `/api/maps/${mapId}/points/${pointId}`
+  })
+}
+
 function addNewPoint(title, lat, lng, image_url) {
-  console.log('Adding', title, lat, lng)
   var ownerApproved = false;
   if (mapData.owner_id = user_id) {
     ownerApproved = true;
@@ -102,6 +108,8 @@ function renderPointDetail(pointIndex) {
   $('#point-description-input')
     .val(point.description)
     .data('point-index', pointIndex);
+  $('#point-delete')
+    .data('point-index', pointIndex);
   panMap(point.latitude, point.longitude)
 }
 
@@ -124,6 +132,7 @@ function makeMapMarker(point, pointIndex) {
   })
   // Track this marker in the master list
   mapMarkers.push(marker);
+  console.log(mapMarkers)
 }
 
 // Transform the list of point data into map markers
@@ -148,6 +157,11 @@ function zoomToAllPoints() {
 function panMap(lat, lng) {
   map.panTo(new google.maps.LatLng(Number(lat), Number(lng)));
   map.setZoom(13)
+}
+
+// Delete a marker from the map
+function removeMapMarker(pointIndex) {
+  mapMarkers[pointIndex].setMap(null)
 }
 
 // Get a click's info
@@ -256,6 +270,8 @@ $(document).ready(function () {
   })
 
   // Handlers for updating data to database
+
+  // Update info in the panel header's textarea
   $('#header-text-input').on('change', function (event) {
     // Check for master map title change
     if ($(event.target).hasClass('header-master')) {
@@ -290,6 +306,8 @@ $(document).ready(function () {
       console.log('Error setting title');
     }
   })
+
+  // Update the map's description
   $('#description-input').on('change', function (data) {
     // Update the map's description in the local data object
     mapData.description = $(this).val();
@@ -300,6 +318,8 @@ $(document).ready(function () {
       console.log('saved description')
     })
   })
+
+  // Update a point's description
   $('#point-description-input').on('change', function (event) {
     var pointIndex = $(event.target).data('point-index');
     var point = mapPoints[pointIndex];
@@ -312,6 +332,30 @@ $(document).ready(function () {
       }, pointId)
       .then(function () {
         console.log('saved point description', pointIndex)
+      })
+  })
+
+  // Delete a point
+  $('#point-delete').on('click', function (event) {
+    var pointIndex = $(event.target).data('point-index');
+    var point = mapPoints[pointIndex];
+    var pointId = point.id
+
+    // Update the point's description in the local point array
+    deletePoint(pointId)
+      .then(function () {
+        console.log('Deleted point', pointIndex)
+        return getMapPoints()
+      }).then(function (data) {
+        // Remove marker from map
+        removeMapMarker(pointIndex)
+        // Rerender points to map
+        mapPoints = data;
+        makeAllMapPoints(data);
+        zoomToAllPoints()
+        renderPointsToList(mapPoints)
+        // Go back to the points list
+        $('#point-show-list').trigger('click');
       })
   })
 })

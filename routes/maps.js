@@ -83,5 +83,16 @@ module.exports = (mapsDb) => {
       });
   });
 
+  // ----------- DELETE Routes -------------
+  router.delete("/:map_id/points/:point_id", (req, res) => {
+    mapsDb.deletePoint(req.params.point_id)
+      .then(results => {
+        res.json(results);
+      }).catch(function (err) {
+        console.error(err);
+      });
+  })
+
+
   return router;
 }

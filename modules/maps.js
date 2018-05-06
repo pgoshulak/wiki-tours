@@ -96,6 +96,13 @@ module.exports = (knex) => {
           id: point_id
         })
         .update({ ...pointData })
-    }
+    },
+    
+    // ----------- DELETE Routes ---------------
+    deletePoint(point_id) {
+      return knex('points')
+        .where({id: point_id})
+        .del()
+    } 
   }
 }
