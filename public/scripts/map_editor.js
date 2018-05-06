@@ -5,7 +5,7 @@ var mapData = {}
 var mapMarkers = [];
 var mapPoints = [];
 var ClickEventHandler;
-var lastPlace;
+var userIsOwner;
 
 
 // --------- Fetch from/update to database -----------
@@ -70,10 +70,21 @@ function renderHeaderMaster(mapData) {
   $('#img-url-input')
     .val(mapData.thumbnail_url || '')
     .data('target', 'master');
+  
+  // Disabled editing for non-owner
+  if (!userIsOwner) {
+    $('#header-text-input').attr('disabled', true);
+    $('button#img-change').attr('disabled', true);
+  }
 }
 
 function renderDescription(mapData) {
   $('#description-input').val(mapData.description);
+
+  // Disabled editing for non-owner
+  if (!userIsOwner) {
+    $('#description-input').attr('disabled', true);
+  }
 }
 
 function renderHeaderPointDetail(point, pointIndex) {
@@ -200,7 +211,6 @@ function ClickEventHandler(map) {
 
     // If this was passed a 'place' (with name, address, etc), render the place info
     if (place && place.geometry) {
-      lastPlace = place
       placeName = place.name;
       placeDetails = place.adr_address;
       placePosition = place.geometry.location
@@ -396,8 +406,11 @@ function initMap() {
   getMapData()
     .then(function (data) {
       mapData = data[0];
+      // Check if current user is owner to determine collaborator permissions
+      userIsOwner = (userId === mapData.owner_id)
       renderHeaderMaster(mapData)
       renderDescription(mapData)
+
     });
 
   getMapPoints()
