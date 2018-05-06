@@ -6,7 +6,6 @@
   console.log(userInfo.first_name);
 
   var todaysDate = new Date().toJSON().slice(0,10).replace(/-/g,'/');
-  //console.log(todaysDate);
 </script>
 
 <style>
@@ -22,66 +21,97 @@
   .map-image img{
     height: 300px;
     width: 400px;
+    border-radius: 3px;
+  }
+
+  .profile-avatar {
+    margin-left: 20px;
   }
 
   .profile-description{
-    padding-left: 55px;
+    width: 100%;
+    margin-left: 40px;
   }
 
   .container {
     padding-top: 15px;
   }
 
+  .nav, .tab-content{
+    padding-top: 15px;
+  }
+
+  .nav-link {
+    background-color: #3D5A80;
+  }
+
+  .nav-link.active{
+    background-color: #98C1D9;
+  }
+
+  .create-map{
+    background-color: #3D5A80;
+  }
+
+  a {
+    color:#98C1D9;
+  }
+
 </style>
 
 <div class="container">
+    <div class="row">
+      <div class="text-center col-md-2 profile-avatar">
+        <img src="https://www.fillmurray.com/140/200" class="rounded" alt="profile picutre">
+      </div>
+       <div class="col-md-9 profile-description card">
+        <div class="card-body">
+          <h4 class="card-title">Welcome back! <%= userInfo[0].first_name %> <%= userInfo[0].last_name %></h4>
+          <h6 class="card-subtitle mb-2 text-muted">
+            Joined date: <%= userInfo[0].date_joined %> <br/>
+            Last visited: <%= new Date(); %><br/>
+          </h6>
+          <p>
+            Maps Created: <%= Object.keys(userMaps).length%><br/>
+            Maps Contributed To: <%= Object.keys(UserContributed).length%>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <div class="row">
-    <div class="text-center col-md-2 profile-avatar">
-      <img src="https://www.fillmurray.com/140/200" class="rounded" alt="profile picutre">
+    <div class="col-md-1"></div>
+
+    <div class="nav flex-column nav-pills col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Your Maps</a>
+      <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Favourites</a>
+      <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Contributed Maps</a>
     </div>
-    <div class="col-md-6 profile-description">
-      <p>
-        Welcome back! <%= userInfo[0].first_name %> <%= userInfo[0].last_name %><br />
-        Joined date: <%= userInfo[0].date_joined %> <br/>
-        Last visited: <%= new Date(); %><br/>
-        Maps Created: <%= Object.keys(userMaps).length%><br/>
-        Maps Contributed To: <%= Object.keys(UserContributed).length%>
-      </p>
-    </div>
-  </div>
-</div>
 
-<div class="row">
-  <div class="col-md-1"></div>
+    <div class="col-md-8">
+      <div class="tab-content" id="v-pills-tabContent" >
+        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+          <ul class="list-group" id="user-maps">
+            <li class="list-group-item create-map"><a class="create-map-link" href="/map/new">Create New Map</a></li>
+            <!--User maps go here -->
+          </ul>
+        </div>
+        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+          <ul class="list-group" id="user-favourites">
+            <!--User favourite maps-->
 
-  <div class="nav flex-column nav-pills col-md-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-    <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Your Maps</a>
-    <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Favourites</a>
-    <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Contributed Maps</a>
-  </div>
+          </ul>
+        </div>
+        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+          <ul class="list-group" id="user-contributed">
+            <!--user contributed maps here-->
 
-  <div class="col-md-8" style="width: 100%">
-    <div class="tab-content" id="v-pills-tabContent" >
-      <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-        <ul class="list-group" id="user-maps">
-          <li class="list-group-item"><a href="#">Create New Map</a></li>
-          <!--User maps go here -->
-        </ul>
-      </div>
-      <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-        <ul class="list-group" id="user-favourites">
-          <!--User favourite maps-->
-
-        </ul>
-      </div>
-      <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
-        <ul class="list-group" id="user-contributed">
-          <!--user contributed maps here-->
-
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
 </div>
 
 <script src="/scripts/user_profile.js"></script>
