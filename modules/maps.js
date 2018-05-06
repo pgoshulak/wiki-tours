@@ -80,6 +80,8 @@ module.exports = (knex) => {
       return knex('maps')
         .returning('id')
         .insert({
+          title: 'My New Map',
+          description: 'Enter your map description here.',
           owner_id: user_id
         })
     },

@@ -461,7 +461,7 @@ function initMap() {
     zoom: 10,
     center: new google.maps.LatLng(43.7, -79.4)
   })
-  map.panMap(map.center);
+  map.panTo(map.center);
   
   clickHandler = new ClickEventHandler(map)
   getMapData()
