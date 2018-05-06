@@ -142,8 +142,6 @@ app.get("/map/:id/edit", (req, res) => {
     partialName: 'map_editor',
     mapId: req.params.id,
     user
-  }).catch(err => {
-    console.error(err);
   })
 });
 
