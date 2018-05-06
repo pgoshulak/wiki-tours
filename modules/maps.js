@@ -58,7 +58,7 @@ module.exports = (knex) => {
         .returning('id')
         .insert({
           map_id: map_id,
-          contributor_id: pointData.user_id,
+          contributor_id: pointData.contributor_id,
           title: pointData.title,
           latitude: pointData.latitude,
           longitude: pointData.longitude,

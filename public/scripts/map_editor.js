@@ -42,7 +42,7 @@ function deletePoint(pointId) {
 
 function addNewPoint(title, lat, lng, image_url) {
   var ownerApproved = false;
-  if (mapData.owner_id = user_id) {
+  if (mapData.owner_id === userId) {
     ownerApproved = true;
   }
   return $.ajax({
@@ -52,7 +52,7 @@ function addNewPoint(title, lat, lng, image_url) {
       title: title,
       latitude: lat.toString(),
       longitude: lng.toString(),
-      contributor_id: user_id,
+      contributor_id: userId,
       owner_approved: ownerApproved,
       image_url: image_url
     }
