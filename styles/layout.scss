@@ -1,7 +1,10 @@
 @import 'global_vars';
+html body{
+  background-color: #eee;
+}
 
 body {
-  background-color: #EEE;
+  background-color: #293241;
 
   h1 {
     color: #244751;
@@ -10,5 +13,7 @@ body {
 }
 
 .main-container {
-  margin-top: $nav-bar-height;
+  margin-top: $nav-bar-height + 10px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
