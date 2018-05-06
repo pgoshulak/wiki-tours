@@ -23,6 +23,7 @@ function renderHeaderPointDetail(point) {
   $('#header-text').text(point.title);
 }
 
+// Display the 'favourite' button as grey/coloured or disabled
 function renderFavouriteState(isFavourite) {
   // Disable the button if user is not logged in
   if (userId === -1) {
