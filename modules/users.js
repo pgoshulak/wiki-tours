@@ -28,10 +28,11 @@ module.exports = (knex) => {
     },
 
     getUserContributedMaps(user_id){
-      return knex('maps')
-        .join('points' , 'maps.id', '=', 'map_id')
+      return knex('points')
+        .join('maps' , 'points.map_id', '=', 'maps.id')
         .where({contributor_id: user_id})
-        .select('*')
+        .distinct('maps.id')
+        .select('maps.id', 'maps.title', 'maps.description', 'maps.date_created', 'maps.date_updated', 'maps.thumbnail_url')
     }
   }
 }

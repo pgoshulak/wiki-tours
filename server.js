@@ -156,7 +156,7 @@ app.get("/profile", (req, res) => {
     usersDb.getUser(user_id)
   ]).then(results => {
     var [userMaps, userFavourites, UserContributed, user] = results;
-    console.log(user)
+
     res.render("index", {
       partialName: "userProfile",
       user: req.currentUser,
