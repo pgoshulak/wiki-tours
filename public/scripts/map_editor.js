@@ -75,6 +75,9 @@ function renderHeaderMaster(mapData) {
   if (!userIsOwner) {
     $('#header-text-input').attr('disabled', true);
     $('button#img-change').attr('disabled', true);
+  } else {
+    $('#header-text-input').attr('disabled', false);
+    $('button#img-change').attr('disabled', false);
   }
 }
 
@@ -84,6 +87,8 @@ function renderDescription(mapData) {
   // Disabled editing for non-owner
   if (!userIsOwner) {
     $('#description-input').attr('disabled', true);
+  } else {
+    $('#description-input').attr('disabled', false);
   }
 }
 
@@ -128,6 +133,19 @@ function renderPointDetail(pointIndex) {
   $('#point-delete')
     .data('point-index', pointIndex);
   panMap(point.latitude, point.longitude)
+
+  // Users can only edit their own contributed points, OR map owner can edit all
+  if (userId === point.contributor_id || userIsOwner) {
+    $('#header-text-input').attr('disabled', false);
+    $('#point-description-input').attr('disabled', false);
+    $('button#img-change').attr('disabled', false);
+    $('button#point-delete').attr('disabled', false).addClass('btn-outline-danger');
+  } else {
+    $('#header-text-input').attr('disabled', true);
+    $('#point-description-input').attr('disabled', true);
+    $('button#img-change').attr('disabled', true);
+    $('button#point-delete').attr('disabled', true).removeClass('btn-outline-danger');
+  }
 }
 
 // --------- Map functions -------------
