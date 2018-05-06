@@ -17,7 +17,7 @@ body {
 }
 
 .main-container {
-  margin-top: $nav-bar-height + 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  margin-top: $nav-bar-height + $main-top-margin-offset;
+  margin-left: $main-side-margin;
+  margin-right: $main-side-margin;
 }

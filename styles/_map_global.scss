@@ -5,6 +5,7 @@ $detail-window-width: 240px;
 
 #map-container {
   position: relative;
+  margin: (-$main-top-margin-offset) (-$main-side-margin) 0
 }
 
 #map {
