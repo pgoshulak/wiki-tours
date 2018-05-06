@@ -238,7 +238,7 @@ function ClickEventHandler(map) {
   this.infoWindow = new google.maps.InfoWindow;
   this.infoWindowContent = document.getElementById('infowindow-content');
   this.infoWindow.setContent(this.infoWindowContent);
-
+  
   // Click handler for clicking on Point Of Interest
   this.handleClick = function (event) {
     if (event.placeId) {
@@ -278,6 +278,7 @@ function ClickEventHandler(map) {
     this.infoWindow.setPosition(placePosition);
     this.infoWindowContent.children['infowindow-name'].textContent = placeName;
     this.infoWindowContent.children['infowindow-address'].innerHTML = placeDetails;
+    $('#infowindow-content').show();
     
     // Set *single* click handler for 'Add' button
     // Note: using $().off() and elem.removeEventListener() did NOT work to clear old listener.
