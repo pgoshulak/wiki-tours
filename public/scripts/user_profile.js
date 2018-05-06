@@ -8,7 +8,7 @@ function createMapElement(map){
   return (`
     <li class="list-group-item">
       <div class="map-info">
-        <h3><a href="#">${map.title}</a></h3>
+        <h3><a href="/map/${map.id}">${map.title}</a></h3>
         <p>
           Date Created: ${map.date_created.slice(0, -14)}<br />
           Date Updated: ${map.date_updated.slice(0, -14)}
