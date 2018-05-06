@@ -149,8 +149,14 @@ app.get("/profile", (req, res) => {
 });
 
 //-----------Login--------------------
+// Default to user id = 1
 app.get('/login', (req, res) => {
-    req.session.user_id = 1;
+    res.redirect('/login/1');
+  });
+
+// Login with other users
+app.get('/login/:id', (req, res) => {
+    req.session.user_id = req.params.id;
     res.redirect('/');
   });
 
