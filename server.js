@@ -109,10 +109,11 @@ app.get("/map/:id", (req, res) => {
   Promise.all([
     mapsDb.getMapData(mapId),
     mapsDb.getApprovedMapPoints(mapId),
-    mapsDb.getMapFavourites(mapId)
+    mapsDb.getMapFavourites(mapId),
+    mapsDb.getMapContributors(mapId)
   ]).then(results => {
     // Store results for rendering
-    let [ [mapData], mapPoints, mapFavourites ] = results;
+    let [ [mapData], mapPoints, mapFavourites, mapContributors ] = results;
 
     // Render the results
     res.render("index", {
@@ -121,6 +122,7 @@ app.get("/map/:id", (req, res) => {
       mapData,
       mapPoints,
       mapFavourites,
+      mapContributors,
       user: req.currentUser
     });
   }).catch(err => {

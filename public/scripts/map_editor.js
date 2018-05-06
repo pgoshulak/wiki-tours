@@ -6,6 +6,7 @@ var mapMarkers = [];
 var mapPoints = [];
 var ClickEventHandler;
 var userIsOwner;
+var contributorLookup = {};
 
 
 // --------- Fetch from/update to database -----------
@@ -15,6 +16,10 @@ function getMapData() {
 
 function getMapPoints() {
   return $.get(`/api/maps/${mapId}/points`)
+}
+
+function getMapContributors() {
+  return $.get(`/api/maps/${mapId}/contributors`)
 }
 
 function updateMapData(data) {
@@ -133,6 +138,15 @@ function renderPointDetail(pointIndex) {
   $('#point-delete')
     .data('point-index', pointIndex);
   panMap(point.latitude, point.longitude)
+
+  // Set contributor name
+  var contributorString = ''
+  if (point.contributor_id === userId) {
+    contributorString = 'me'
+  } else {
+    contributorString = contributorLookup[point.id].firstName
+  }
+  $('#contributor-name').text(contributorString);
 
   // Users can only edit their own contributed points, OR map owner can edit all
   if (userId === point.contributor_id || userIsOwner) {
@@ -437,5 +451,18 @@ function initMap() {
       makeAllMapPoints(data);
       zoomToAllPoints();
       renderPointsToList(mapPoints)
+    })
+
+  getMapContributors()
+    .then(function(contributors) {
+      for (i in contributors) {
+        var point = contributors[i]
+        // Construct a dictionary of pointId: {fname, lname, userId}
+        contributorLookup[point.id] = {
+          firstName: point.first_name,
+          lastName: point.last_name,
+          userId: point.contributor_id
+        }
+      }
     })
 }
