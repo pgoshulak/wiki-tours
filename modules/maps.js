@@ -76,6 +76,15 @@ module.exports = (knex) => {
         })
     },
 
+    // Favourite a map
+    addFavourite(mapId, userId) {
+      return knex('favourites')
+        .insert({
+          map_id: mapId,
+          user_id: userId
+        })
+    },
+
     // ------------ PUT Routes ------------------
     updateMap(map_id, mapData) {
       return knex('maps')
@@ -102,6 +111,16 @@ module.exports = (knex) => {
       return knex('points')
         .where({id: point_id})
         .del()
-    } 
+    },
+    
+    // Unfavourite a map
+    removeFavourite(mapId, userId) {
+      return knex('favourites')
+        .where({
+          map_id: mapId,
+          user_id: userId
+        })
+        .del()
+    },
   }
 }
