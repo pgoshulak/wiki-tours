@@ -68,7 +68,7 @@ app.use(cookieSession({
   secret: "COOKIE_SESSION_SECRET"
 }));
 
-//-----------cookie interceptor------------
+//----------- Get user id from cookie ------------
 app.use((req, res, next) => {
   const user_id = req.session.user_id || -1;
   req.currentUser = user_id;
@@ -81,6 +81,25 @@ app.get("/", (req, res) => {
     partialName: 'featured',
     user: req.currentUser
   });
+});
+
+// New map
+app.get("/map/new", (req, res) => {
+  // If user not logged in, redirect to home
+  let user = req.currentUser;
+  if (user === -1) {
+    res.redirect('/');
+    return;
+  }
+
+  // Create new map in DB then redirect to editor page
+  mapsDb.addNewMap(user)
+    .then((mapId) => {
+      res.redirect(`/map/${mapId}/edit`)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
 });
 
 // Map viewer
@@ -111,13 +130,16 @@ app.get("/map/:id", (req, res) => {
 
 // Map editor
 app.get("/map/:id/edit", (req, res) => {
-  // Check for user logged in here
-  // ...
-  let mapId = req.params.id;
+  // If user not logged in, redirect to home
+  let user = req.currentUser;
+  if (user === -1) {
+    res.redirect('/');
+    return;
+  }
   res.render("index", {
     partialName: 'map_editor',
-    mapId,
-    user: req.currentUser
+    mapId: req.params.id,
+    user
   }).catch(err => {
     console.error(err);
   })

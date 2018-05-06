@@ -68,15 +68,11 @@ module.exports = (knex) => {
     },
 
     // Create a new map
-    addNewMap() {
+    addNewMap(user_id) {
       return knex('maps')
         .returning('id')
         .insert({
-          owner_id: "1",
-          category_id: req.body.category_id,
-          title: req.body.title,
-          description: req.body.description,
-          thumbnail_url: req.body.thumbnail_url
+          owner_id: user_id
         })
     },
 
