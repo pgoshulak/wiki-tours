@@ -13,6 +13,13 @@ $detail-window-width: 240px;
   z-index: 0;
 }
 
+#edit-view-swap {
+  position: fixed;
+  top: calc(#{nav-bar-height} + 50px);
+  right: 20px;
+  z-index: 1;
+}
+
 #details-window {
   position: fixed;
   display: flex;
