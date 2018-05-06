@@ -82,7 +82,8 @@ module.exports = (knex) => {
         .where({
           id: map_id
         })
-        .update({ ...mapData
+        .update({ ...mapData,
+          date_updated: knex.fn.now()
         })
     },
 
@@ -91,7 +92,9 @@ module.exports = (knex) => {
         .where({
           id: point_id
         })
-        .update({ ...pointData })
+        .update({ ...pointData,
+          date_updated: knex.fn.now()
+        })
     },
     
     // ----------- DELETE Routes ---------------
