@@ -123,6 +123,11 @@ function renderPointsToList(mapPoints) {
   })
 }
 
+// Set the 'approved' checkbox to checked or unchecked
+function renderApprovedCheckboxState(isApproved) {
+  $('#approved-checkbox').attr('checked', isApproved)
+}
+
 // Display a point's details in the window
 function renderPointDetail(pointIndex) {
   var point = mapPoints[pointIndex];
@@ -131,14 +136,19 @@ function renderPointDetail(pointIndex) {
   $('#points-list').hide();
   $('#point-details').show();
 
+  // Render the pane header (title, image)
   renderHeaderPointDetail(point, pointIndex);
+  // Render the point description
   $('#point-description-input')
     .val(point.description)
     .data('point-index', pointIndex);
+  // Assign the delete button to the current point
   $('#point-delete')
     .data('point-index', pointIndex);
-  panMap(point.latitude, point.longitude)
-
+  // Set the checkbox state
+  renderApprovedCheckboxState(point.owner_approved)
+  $('#approved-checkbox').data('point-index', pointIndex);
+    
   // Set contributor name
   var contributorString = ''
   if (point.contributor_id === userId) {
@@ -160,6 +170,14 @@ function renderPointDetail(pointIndex) {
     $('button#img-change').attr('disabled', true);
     $('button#point-delete').attr('disabled', true).removeClass('btn-outline-danger');
   }
+
+  // Only owner can 'approve' a point
+  if (userIsOwner) {
+    $('#approved-checkbox').attr('disabled', false)
+  } else {
+    $('#approved-checkbox').attr('disabled', true)
+  }
+  panMap(point.latitude, point.longitude)
 }
 
 // --------- Map functions -------------
@@ -404,6 +422,16 @@ $(document).ready(function () {
         // Go back to the points list
         $('#point-show-list').trigger('click');
       })
+  })
+
+  // Approve a point for display
+  $('#approved-checkbox').on('change', function() {
+    var pointIndex = $(this).data('point-index')
+    var pointId = mapPoints[pointIndex].id;
+
+    updatePointData({
+      owner_approved: this.checked
+    }, pointId).then()
   })
 
   // Change an image url

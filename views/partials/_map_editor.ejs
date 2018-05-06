@@ -44,9 +44,15 @@
         </p>
         <textarea id="point-description-input" class="form-control" placeholder="Tell us about this point" rows="6"></textarea>
       </div>
-      <div class="card-footer text-muted">
-        <small>Contributed by <span id="contributor-name">X</span></small>
+      
+      <div class="card-footer">
+        <small class="text-muted">Contributed by <span id="contributor-name">X</span></small>
+        <div id="approved-container" class="custom-control custom-checkbox">
+          <input type="checkbox" class="custom-control-input" id="approved-checkbox">
+          <label class="custom-control-label" for="approved-checkbox">Approved</label>
+        </div>
       </div>
+
     </div>
   </div>
   <div id="map"></div>
