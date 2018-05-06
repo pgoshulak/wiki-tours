@@ -50,6 +50,14 @@ module.exports = (knex) => {
         .from('maps')
         .where({owner_id: user_id})
     },
+
+    getMapContributors(map_id) {
+      return knex('users')
+        .join('points', 'users.id', '=', 'contributor_id')
+        .where({map_id: map_id})
+        .select('contributor_id', 'points.id', 'first_name', 'last_name')
+        .distinct()
+    },
     // ----------------- POST Routes ---------------------
 
     // Post a point

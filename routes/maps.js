@@ -42,6 +42,13 @@ module.exports = (mapsDb) => {
       })
   });
 
+  router.get('/:id/contributors', (req, res) => {
+    mapsDb.getMapContributors(req.params.id)
+      .then((results)=> {
+        res.json(results)
+      })
+  })
+
   //---------Post Routes-----------
 
   // Add new map point
