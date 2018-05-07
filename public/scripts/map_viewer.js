@@ -118,6 +118,7 @@ function initMap() {
     zoom: 11,
     center: new google.maps.LatLng(43.7, -79.4)
   })
+  map.panTo(map.center)
 
   if (mapPoints.length) {
     // Initialize map boundaries
