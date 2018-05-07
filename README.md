@@ -1,14 +1,50 @@
-# Node Skeleton
+# Wiki-Tours
+A collaborative mapping site where users can share their favourite places to create tours for their friends.
 
-## Project Setup
+This project began as a midterm project for Lighthouse Labs web development bootcamp for working in a full-stack, collaborative development project.
 
-1. Create your own empty repo on GitHub
-2. Clone this repository (do not fork)
-  - Suggestion: When cloning, specify a different folder name that is relevant to your project
-3. Remove the git remote: `git remote rm origin`
-4. Add a remote for your origin: `git remote add origin <your github repo URL>`
-5. Push to the new origin: `git push -u origin master`
-6. Verify that the skeleton code now shows up in your repo on GitHub
+# Screenshots
+
+# Features
+## Navigation
+- Users can navigate the homepage which lists available maps
+- Anonymous users can view maps from the homepage
+- Users can login and view their profile, which lists:
+  - their created maps
+  - their favourited maps
+  - maps they have contributed to
+- Once logged in, users can create a new map
+
+## Viewing a map
+Any user can view a map and its tour points. Points are shown on the map as markers. Clicking a marker zooms in the screen to the marker and brings up the point's detail view.
+The map viewer has three screens:
+- The main info view, listing map name, a thumbnail, description, likes, and last-updated date
+- The points list, which lists all approved points
+- The points detail view, which shows point name, a thumbnail, and description. 
+
+Once logged-in, users can:
+- 'Favourite' a map
+- Switch to the map editor screen
+
+## Editing a map
+Only logged-in users can use the map editor. From here, users can:
+- click a location on the map to add a marker
+  - points will automatically populate with a name and image if possible
+- edit the point name, image, and description
+- delete the point
+Users can only edit the points they have created when contributing to another user's map. When a user first adds a point, it is marked as 'not approved' and will not be displayed on the map publicly until the map owner approves it.
+
+When a user is the map owner, they can edit points as above. Additionally, they can:
+- Edit the map's title, thumbnail image (displayed on the map listings), and description
+- Edit points from any user
+- 'Approve' a point for public display
+
+# Setup
+
+# Issues
+
+# Roadmap
+
 
 ## Getting Started
 
