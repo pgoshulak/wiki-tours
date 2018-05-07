@@ -4,6 +4,11 @@ A collaborative mapping site where users can share their favourite places to cre
 This project began as a midterm project for Lighthouse Labs web development bootcamp for working in a full-stack, collaborative development project.
 
 # Screenshots
+![Main main](/docs/1-main.png)
+![User Profile](/docs/2-profile.png)
+![Map info](/docs/3-map.png)
+![Adding a point](/docs/4-add.png)
+![Point details](/docs/5-point.png)
 
 # Features
 ## Navigation
