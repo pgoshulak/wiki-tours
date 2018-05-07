@@ -63,7 +63,7 @@ User authentication is simplified for demo purposes. Three users are created, an
 Only the 'Toronto Weekend Sites' map is populated with points, although there are several other maps listed.
 
 # Issues
-- on deleting a marker, occasionally the marker remains rendered. This happens most frequently when deleting more than one marker before refreshing the page
+- After adding/deleting a point, deleting another point will not remove the map marker from the map (though it is removed from database correctly). Page must be refreshed to show the marker is deleted
 - Deleting the only point on a map recenters the map view in the Pacific ocean (at equator and International Dateline)
 
 # Roadmap
