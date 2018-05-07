@@ -58,14 +58,15 @@ User authentication is simplified for demo purposes. Three users are created, an
 Only the 'Toronto Weekend Sites' map is populated with points, although there are several other maps listed.
 
 # Issues
+- on deleting a marker, occasionally the marker remains rendered. This happens most frequently when deleting more than one marker before refreshing the page
+- Deleting the only point on a map recenters the map view in the Pacific ocean (at equator and International Dateline)
 
 # Roadmap
+- Implement map comments (already seeded in database)
+- Implement map categories (already seeded in database)
+- Allow users to search for locations from a searchbar
 
-
-## Getting Started
-
-
-## Dependencies
-
+# Dependencies
 - Node 5.10.x or above
 - NPM 3.8.x or above
+- PostgreSQL
