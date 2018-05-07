@@ -415,7 +415,6 @@ $(document).ready(function () {
         removeMapMarker(pointIndex)
         // Rerender points to map
         mapPoints = data;
-        console.log(data)
         makeAllMapPoints(data);
         zoomToAllPoints()
         renderPointsToList(mapPoints)
