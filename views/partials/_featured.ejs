@@ -1,3 +1,8 @@
+<script>
+  var allMaps = <%- JSON.stringify(allMaps) %>;
+  //console.log(allMaps);
+</script>
+
 <style>
 
   h3,h4,p{
@@ -43,6 +48,21 @@
     border-radius: 5px
   }
 
+  .map-image img{
+    height: 300px;
+    width: 100%;
+    border-radius: 3px;
+    object-fit: cover;
+  }
+  .map-body{
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .date-text{
+    color:black;
+  }
+
 </style>
 
 <div class="row">
@@ -84,12 +104,8 @@
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
         <span class="sr-only">Next</span>
       </a>
-    </div>
-  </div>
 
-  <div class="col-6 featured-row">
-
-    <div class="card tour-card">
+      <div class="card tour-card">
       <img class="card-img-top" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJNJ7O3RX_W9PXHGdPh3gYne7blOyMNN5OANFL72Xrm5oG1dMIFQ" alt="Card image cap">
       <div class="card-body">
         <div class="tour-title">
@@ -110,7 +126,17 @@
         <p>Take a Walking tour of Toronto! See the sights and take in the 6ix.</p>
       </div>
     </div>
+
+    </div>
+  </div>
+
+  <div class="col-6">
+    <ul id="all-maps">
+      </ul>
+    </div>
   </div>
 
   </div>
 </div>
+
+<script src="/scripts/featured.js"></script>

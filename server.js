@@ -77,10 +77,22 @@ app.use((req, res, next) => {
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("index", {
-    partialName: 'featured',
-    user: req.currentUser
-  });
+  Promise.all([
+    mapsDb.getAllMaps()
+  ]).then(results => {
+    let [allMaps] = results;
+
+    res.render("index", {
+      partialName: 'featured',
+      user: req.currentUser,
+      allMaps: allMaps
+    });
+  })
+
+  // res.render("index", {
+  //   partialName: 'featured',
+  //   user: req.currentUser
+  // });
 });
 
 // New map
